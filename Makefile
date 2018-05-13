@@ -1,84 +1,114 @@
-NAME = libft.a
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ptruffau <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/11/16 11:16:13 by ptruffau          #+#    #+#              #
+#    Updated: 2018/01/07 16:59:07 by ptruffau         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-CLANG = gcc
+NAME		= ft_printf
 
-SRC = ./ft_memset.c \
-	  ./ft_bzero.c \
-	  ./ft_memcpy.c \
-	  ./ft_memmove.c \
-	  ./ft_memccpy.c \
-	  ./ft_strchr.c \
-	  ./ft_memchr.c \
-	  ./ft_memcmp.c \
-	  ./ft_strcpy.c \
-	  ./ft_strdup.c \
-	  ./ft_strlen.c \
-	  ./ft_strncpy.c \
-	  ./ft_strcat.c \
-	  ./ft_strncat.c \
-	  ./ft_strlcat.c \
-	  ./ft_strrchr.c \
-	  ./ft_strstr.c \
-	  ./ft_strnstr.c \
-	  ./ft_strcmp.c \
-	  ./ft_strncmp.c \
-	  ./ft_atoi.c \
-	  ./ft_isalpha.c \
-	  ./ft_isdigit.c \
-	  ./ft_isalnum.c \
-	  ./ft_isascii.c \
-	  ./ft_isprint.c \
-	  ./ft_toupper.c \
-	  ./ft_tolower.c \
-	  ./ft_memalloc.c \
-	  ./ft_itoa.c \
-	  ./ft_memdel.c \
-	  ./ft_putchar_fd.c \
-	  ./ft_putchar.c \
-	  ./ft_putendl_fd.c \
-	  ./ft_putendl.c \
-	  ./ft_putnbr_fd.c \
-	  ./ft_putnbr.c \
-	  ./ft_putstr_fd.c \
-	  ./ft_putstr.c \
-	  ./ft_strclr.c \
-	  ./ft_strdel.c \
-	  ./ft_strequ.c \
-	  ./ft_striter.c \
-	  ./ft_striteri.c \
-	  ./ft_strjoin.c \
-	  ./ft_strmap.c \
-	  ./ft_strmapi.c \
-	  ./ft_strnequ.c \
-	  ./ft_strnew.c \
-	  ./ft_strsplit.c \
-	  ./ft_strsub.c \
-	  ./ft_strtrim.c \
-	  ./ft_lstnew.c \
-	  ./ft_lstdelone.c \
-	  ./ft_lstdel.c \
-	  ./ft_lstadd.c \
-	  ./ft_lstiter.c \
-	  ./ft_lstmap.c \
-	  ./ft_sqrt.c \
+FOLDERS 	= ft_printf/
+			
+GIT 		= https://github.com/ptruffault/ft_printf.git
 
-OBJ = $(SRC:.c=.o)
+SRC			= srcs/*.c \
+			srcs/tools/*.c
 
-RM = rm -f
+CFLAGS		= -Wall -Werror -Wextra
 
-FLAG = -Wall -Werror -Wextra
+LIB_PATH	= ./libft/
+
+LIB			= -Llibft/ -lft
+
+COULEUR		= \033[01;34m
+
+SUCESS		= [\033[1;32mOK\033[00m]\n
 
 all: $(NAME)
 
+clear:
+	@clear
+
 $(NAME):
-	$(CLANG) -c $(FLAG) $(SRC) -I .
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@echo "$(COULEUR) -Creating libft.a \033[00m"
+	@make -C $(LIB_PATH) all
+	@echo "$(SUCESS)"
+	@echo "$(COULEUR) -Creating $(NAME) \033[00m"
+	@gcc $(CFLAGS) $(SRC) -I $(LIB_PATH) $(LIB) -o $(NAME)
+	@echo "$(SUCESS)"
+
+small_clean:
+	@rm -rf $(NAME)
+	@echo "$(COULEUR) -delete $(NAME) \033[00m"
 
 clean:
-	$(RM) $(OBJ)
+	@make -C $(LIB_PATH) clean
 
-fclean: clean
-	$(RM) $(NAME)
+fclean:
+	@echo "$(COULEUR) -Cleaning\033[00m"
+	@make -C $(LIB_PATH) fclean
+	@echo "$(COULEUR)\t +delete $(NAME) \033[00m"
+	@rm -f $(NAME)
+	@echo "$(SUCESS)"
 
-re: fclean all
+re:	clear fclean all
+
+fast_re: clear small_clean
+	@echo "$(COULEUR) -Creating $(NAME) \033[00m"
+	@gcc $(CFLAGS) $(SRC) -I $(LIB_PATH) $(LIB) -o $(NAME)
+	@echo "$(SUCESS)"
+
+
+no_flag: clear small_clean
+	@echo "$(COULEUR) -Creating $(NAME) \033[00m"
+	@gcc $(SRC) -I $(LIB_PATH) $(LIB) -o $(NAME)
+	@echo "$(SUCESS)"
+
+build:
+//	@git clone https://github.com/ptruffault/libft.git
+	@mkdir srcs
+	@mkdir includes
+	@mkdir user
+	@touch user/cmd_logs
+	@echo ptruffau > auteur
+	@echo "$(SUCESS)"
+
+chmod:
+	@echo "$(COULEUR) -giving permission\033[00m"
+	@chmod 777 *
+	@chmod 777 libft/*
+	@chmod 777 srcs/*
+	@chmod 777 includes/*
+	@echo "$(SUCESS)"
+
+valgrind:fast_re
+	@echo "$(COULEUR) -test leaks with valgrind \033[00m"
+	@valgrind --tool=memcheck --leak-check=full ./$(NAME)
+
+zam: fast_re
+	./$(NAME)
+
+save: clear fclean
+	@git add *
+	@git commit -m "make save"
+	@git push
+
+load: clear fclean
+	@rm -rf srcs
+	@rm -rf includes
+	@rm -rf libft
+	@rm -rf auteur
+	@git clone $(GIT)
+	@cp -r $(FOLDERS)srcs .
+	@cp -r $(FOLDERS)includes .
+	@cp -r $(FOLDERS)libft .
+	@cp $(FOLDERS)auteur .
+	@rm -rf $(FOLDERS)
+	@echo "$(SUCESS)"
+
+.PHONY: all small_clean clean fclean re fast_re
