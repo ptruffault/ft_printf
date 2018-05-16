@@ -26,25 +26,34 @@ char *ft_width(t_param *param, char *ptr)
 
 char *ft_length(t_param *param, char *ptr)
 {
-	while ((*ptr == 'h' || *ptr == 'l' || *ptr == 'z' || *ptr == 'j'))
+	char *end;
+
+	end = ptr;
+	while (*end == 'h' || *end == 'l' || *end == 'j' || *end == 't' || *end == 'z')
+		end++;
+	if (*ptr == 'h')
 	{
-		if (!(param->length = ft_stradd_char(param->length, *ptr)))
-			return (NULL);
-		ptr++;
-	}	
-	return (ptr);
+		if (*(ptr +1) == 'h')
+			param->elen = hh;
+		else
+			param->elen = h;
+	}
+	else if (*ptr == 'l')
+	{
+		if (*(ptr + 1) == 'l')
+			param->elen = ll;
+		else
+			param->elen = l;
+	}
+	else if (*ptr == 'j')
+		param->elen = j;
+	else if (*ptr == 'z')
+		param->elen = z;
+	else if (*ptr == 't')
+		param->elen = t;
+	return (end);
 }
 
-char *ft_strndup_fr(char *str, int n)
-{
-	char *ret;
-
-	if (!(ret = ft_strnew(n + 1)))
-		return (NULL);
-	ret = ft_strncpy(ret, str, n);
-	ft_free(str);
-	return (ret);
-}
 
 char *ft_precision(t_param *param, char *ptr)
 {
@@ -75,8 +84,8 @@ char *ft_modifier(t_param *param, char *ptr)
 	if ((*ptr == 's' || *ptr == 'S' || *ptr == 'p' || *ptr == 'd' || *ptr == 'D' ||
 	*ptr == 'i' || *ptr == 'o' || *ptr == 'O' || *ptr == 'u' || *ptr == 'U' ||
 	*ptr == 'x' || *ptr == 'X' || *ptr == 'c' || *ptr == 'C')
-	&& (ft_is_space(*(ptr + 1)) == 1 || *(ptr + 1) == '\0'))
-		param->type = *ptr;
+	&& (IS_SPACE(*(ptr + 1)) || *(ptr + 1) == '\0'))
+		param->spec = *ptr;
 	else
 	{
 		error("param must end with a type convertion modifier followed by a space", NULL);

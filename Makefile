@@ -16,8 +16,8 @@ FOLDERS 	= ft_printf/
 			
 GIT 		= https://github.com/ptruffault/ft_printf.git
 
-SRC			= srcs/*.c \
-			srcs/tools/*.c
+SRC			= 	srcs/*.c \
+				srcs/tools/*.c
 
 CFLAGS		= -Wall -Werror -Wextra
 
@@ -69,20 +69,14 @@ no_flag: clear small_clean
 	@gcc $(SRC) -I $(LIB_PATH) $(LIB) -o $(NAME)
 	@echo "$(SUCESS)"
 
-build:
-//	@git clone https://github.com/ptruffault/libft.git
-	@mkdir srcs
-	@mkdir includes
-	@mkdir user
-	@touch user/cmd_logs
-	@echo ptruffau > auteur
-	@echo "$(SUCESS)"
+
 
 chmod:
 	@echo "$(COULEUR) -giving permission\033[00m"
 	@chmod 777 *
 	@chmod 777 libft/*
 	@chmod 777 srcs/*
+	@chmod 777 srcs/tools/*
 	@chmod 777 includes/*
 	@echo "$(SUCESS)"
 
@@ -110,5 +104,36 @@ load: clear fclean
 	@cp $(FOLDERS)auteur .
 	@rm -rf $(FOLDERS)
 	@echo "$(SUCESS)"
+
+build_folders:
+	@echo "$(COULEUR)*Creating folders\033[00m"
+	@mkdir srcs
+	@mkdir srcs/tools
+	@mkdir includes
+
+build_tools:
+	@echo "#include \"../../includes/$(NAME).h\"" > srcs/tools/tools_1.c
+
+build_file:
+	@echo "#include \"../includes/$(NAME).h\"" > srcs/file_1.c
+
+build_h:
+	@echo "$(COULEUR)*Creating $(NAME).h main.c and files\033[00m"
+	@echo "#ifndef $(MAJ_NAME)_H\n#define $(MAJ_NAME)_H\n# include \"libft/libft.h\"\n#endif" > includes/$(NAME).h
+
+download_libft:
+	@echo "$(COULEUR)*download libft\033[00m"
+	@git clone https://github.com/ptruffault/libft.git
+	@echo "$(SUCESS)"
+
+build_main:
+	@echo "#include \"../includes/$(NAME).h\"\n\nint\tmain(void)\n{\n\n\treturn (0);\n}" > srcs/main.c
+
+build: build_folders build_file build_tools build_h build_main download_libft
+	@echo ptruffau > auteur
+	@echo "$(SUCESS)"
+
+
+
 
 .PHONY: all small_clean clean fclean re fast_re

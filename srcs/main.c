@@ -1,23 +1,19 @@
 #include "../includes/ft_printf.h"
 
-char	*add_value(char *format ,char *str, int *i, int *j, va_list *ap)
+wchar_t	*ft_wstrnew(int n)
 {
-	t_param param;
-	char *ret;
+	size_t	i;
+	wchar_t	*new;
 
-	if (init(&param, &format[*i + 1]) != 0)
+	i = 0;
+	if (!(new = (wchar_t *)malloc(sizeof(wchar_t) * size + 1)))
 		return (NULL);
-	if (get_value(&param, ap) == -1)
-	{
-		error("impossible to get value", NULL);
-		return (NULL);
-	}
-	*i = *i + next_word(&format[*i]);
-	*j = *j + ft_strlen(param.value);
-	if (!(ret = ft_strjoin_fr(str, param.value)))
-		return (NULL);
-	return (ret);
+	while (i <= size)
+		new[i++] = '\0';
+	return (new);
 }
+
+
 
 char *ft_vsprintf(char *format, va_list *ap)
 {
@@ -69,6 +65,6 @@ int ft_printf(char *format, ...)
 
 int main(void)
 {
-	ft_printf("%.5i", -767);
-	return (0);
+	ft_printf("test = %#8.3lld %X work", -42, 42);
+	return 0;
 }

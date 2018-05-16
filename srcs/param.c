@@ -5,10 +5,11 @@ void 	raz_param(t_param *param)
 	param->flag = NULL;
 	param->width = 0;
 	param->precision = -1;
-	param->length = NULL;
-	param->type = '?';
-	param->sign = '?';
+	param->spec = '?';
+	param->signe = '?';
 	param->var_len = -1;
+	param->value = NULL;
+	param->elen = off;
 }
 
 //initialise t_param
@@ -31,3 +32,23 @@ int	init(t_param *param, char *format)
 	return (0);
 }
 
+char	*add_value(char *format ,char *str, int *i, int *j, va_list *ap)
+{
+	t_param param;
+	char *ret;
+
+	if (init(&param, &format[*i + 1]) != 0)
+		return (NULL);
+	if (get_value(&param, ap) == -1)
+	{
+		error("impossible to get value", NULL);
+		return (NULL);
+	}
+	*i = *i + next_word(&format[*i]);
+	*j = *j + ft_strlen(param.value);
+	if (!(ret = ft_strjoin_fr(str, param.value)))
+		return (NULL);
+	ft_free(param.flag);
+	raz_param(&param);
+	return (ret);
+}
