@@ -1,20 +1,5 @@
 #include "../includes/ft_printf.h"
 
-wchar_t	*ft_wstrnew(int n)
-{
-	size_t	i;
-	wchar_t	*new;
-
-	i = 0;
-	if (!(new = (wchar_t *)malloc(sizeof(wchar_t) * size + 1)))
-		return (NULL);
-	while (i <= size)
-		new[i++] = '\0';
-	return (new);
-}
-
-
-
 char *ft_vsprintf(char *format, va_list *ap)
 {
 	int i;
@@ -65,6 +50,11 @@ int ft_printf(char *format, ...)
 
 int main(void)
 {
-	ft_printf("test = %#8.3lld %X work", -42, 42);
+	printf("test = %6i\n", -42);
+	ft_printf("test = %6i\n", -42);
+	printf("test = %+i\n", -42);
+	ft_printf("test = %+i\n", -42);
+	printf("printf    = %+8.4i\n", -42);
+	ft_printf("ft_printf = %+8.4i \n", -42);
 	return 0;
 }

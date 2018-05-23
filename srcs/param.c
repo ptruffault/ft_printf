@@ -1,15 +1,15 @@
 #include "../includes/ft_printf.h"
 
-void 	raz_param(t_param *param)
+void 	raz_param(t_param *p)
 {
-	param->flag = NULL;
-	param->width = 0;
-	param->precision = -1;
-	param->spec = '?';
-	param->signe = '?';
-	param->var_len = -1;
-	param->value = NULL;
-	param->elen = off;
+	p->flag = NULL;
+	p->width = 0;
+	p->precision = -1;
+	p->spec = '?';
+	p->signe = '?';
+	p->var_len = -1;
+	p->value = NULL;
+	p->elen = off;
 }
 
 //initialise t_param
@@ -36,17 +36,18 @@ char	*add_value(char *format ,char *str, int *i, int *j, va_list *ap)
 {
 	t_param param;
 	char *ret;
+	char *value;
 
 	if (init(&param, &format[*i + 1]) != 0)
 		return (NULL);
-	if (get_value(&param, ap) == -1)
+	if (!(value = get_value(&param, ap)))
 	{
 		error("impossible to get value", NULL);
 		return (NULL);
 	}
 	*i = *i + next_word(&format[*i]);
-	*j = *j + ft_strlen(param.value);
-	if (!(ret = ft_strjoin_fr(str, param.value)))
+	*j = *j + ft_strlen(value);
+	if (!(ret = ft_strjoin_fr(str, value)))
 		return (NULL);
 	ft_free(param.flag);
 	raz_param(&param);

@@ -56,7 +56,7 @@ fclean:
 	@rm -f $(NAME)
 	@echo "$(SUCESS)"
 
-re:	clear fclean all
+re:	clear all
 
 fast_re: clear small_clean
 	@echo "$(COULEUR) -Creating $(NAME) \033[00m"
@@ -78,6 +78,7 @@ chmod:
 	@chmod 777 srcs/*
 	@chmod 777 srcs/tools/*
 	@chmod 777 includes/*
+	@make -C $(LIB_PATH) chmod
 	@echo "$(SUCESS)"
 
 valgrind:fast_re

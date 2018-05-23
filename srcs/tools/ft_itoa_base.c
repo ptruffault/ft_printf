@@ -61,32 +61,3 @@ char		*ft_itoa_base_unintmax(uintmax_t value, int base)
 	str[i] = '\0';
 	return (str);
 }
-
-
-char	*ft_itoa_intmax(intmax_t n)
-{
-	char		*s;
-	char		*rep;
-	intmax_t	num;
-	int			i;
-
-	rep = "0123456789";
-	if (!(s = (char *)malloc(sizeof(char) * 4)))
-		return (NULL);
-	i = 0;
-	num = n;
-	if (n < 0)
-		num *= -1;
-	if (n == 0)
-		return ("0");
-	while (num != 0)
-	{
-		s[i] = rep[num % 10];
-		i++;
-		num /= 10;
-	}
-	if (n < 0)
-		s[i++] = '-';
-	s[i] = '\0';
-	return (ft_strrev(s));
-}

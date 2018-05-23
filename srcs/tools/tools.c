@@ -1,15 +1,15 @@
 #include "../../includes/ft_printf.h"
 
-
-//compte le nb de caractéres jusq'a la fin du prochain mot
-int 	next_word(char *str)
+char *get_dat_flag(t_param *p)
 {
-	int i;
+	char *ret;
 
-	i = 0;
-	while (str[i] != '\t' && str[i] != '\n' && str[i] != '\v'
-	&& str[i] != '\f' && str[i] != '\r' && str[i] != ' '
-	&& str[i] != '\0')
-		i++;
-	return (i);
+	if ((p->spec == 'o' && !(ret = ft_strdup("0")))
+	|| (p->spec == 'x' && !(ret = ft_strdup("oX")))
+	|| (p->spec == 'X' && !(ret = ft_strdup("0X"))))
+		return (NULL);
+	else if (p->spec != 'o' && p->spec != 'x' && p->spec != 'O')
+		warning("flag '#' incompatible with type sprecifier :", char_to_str(p->spec));
+	return (ret);
 }
+
