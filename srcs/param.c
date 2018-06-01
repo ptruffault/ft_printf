@@ -1,6 +1,6 @@
 #include "../includes/ft_printf.h"
 
-void 	raz_param(t_param *p)
+static void 	raz_param(t_param *p)
 {
 	p->flag = NULL;
 	p->width = 0;
@@ -13,7 +13,7 @@ void 	raz_param(t_param *p)
 }
 
 //initialise t_param
-int	init(t_param *param, char *format)
+static int	init(t_param *param, char *format, int *i)
 {
 	
 	char *ptr;
@@ -29,6 +29,7 @@ int	init(t_param *param, char *format)
 		error("istruction init failed", NULL);
 		return (-1);
 	}
+	*i = *i + (ptr - format) + 1;
 	return (0);
 }
 
@@ -38,14 +39,13 @@ char	*add_value(char *format ,char *str, int *i, int *j, va_list *ap)
 	char *ret;
 	char *value;
 
-	if (init(&param, &format[*i + 1]) != 0)
+	if (init(&param, &format[*i + 1], i) != 0)
 		return (NULL);
 	if (!(value = get_value(&param, ap)))
 	{
 		error("impossible to get value", NULL);
 		return (NULL);
 	}
-	*i = *i + next_word(&format[*i]);
 	*j = *j + ft_strlen(value);
 	if (!(ret = ft_strjoin_fr(str, value)))
 		return (NULL);

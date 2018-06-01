@@ -4,10 +4,12 @@
 #include "../libft/includes/libft.h"
 #include <stdarg.h>
 #include <stdint.h>
+#include <wchar.h>
 
 
 #define TEST_FLAG(x)  ((p->flag && ft_strchr(p->flag, x)) ? 1 : 0)
-
+#define TEST_SPEC_NBR(x) ((x == 'd' || x == 'i' || x == 'o' ||x == 'O' || x == 'u' || x == 'U' || x == 'x' || x == 'X' || x == 'p') ? 1 : 0)
+#define TEST_SPEC_CHAR(x) ((x == 's' || x == 'S' || x == 'c' || x == 'C') ? 1 : 0)
 
 enum 	e_lenght
 {
@@ -51,11 +53,11 @@ char  	*my_strjoin_fr(char *s1, char *s2);
 char 	*ft_arr_to_str(char **arr);
 char	*ft_strmap_i(char const *s, int (*f)(int));
 void	error(char *descript, char *opts);
+void	error_c(char *descript, char c);
 void	warning(char *descript, char *opts);
 char 	*ft_stradd_char(char *str, char c);
 
 char 	*ft_strnew_nchar(char c, int n);
-int 	next_word(char *str);
 void	ft_free(void *ptr);
 char 	*ft_strjoin_fr(char *s1, char *s2);
 char 	*char_to_str(char c);
@@ -68,9 +70,6 @@ char *ft_length(t_param *param, char *ptr);
 char *ft_modifier(t_param *param, char *ptr);
 
 
-//param.c
-int		init(t_param *param, char *format);
-
 //base
 char		*ft_itoa_base_intmax(intmax_t value, int base);
 char		*ft_itoa_base_unintmax(uintmax_t value, int base);
@@ -81,6 +80,10 @@ char	*add_value(char *format ,char *str, int *i, int *j, va_list *ap);
 
 //get_value
 char 	*get_value(t_param *param, va_list *ap);
-char *get_dat_flag(t_param *p);
+char *get_ox(t_param *p);
 char 	*get_dioux(t_param *p, va_list *ap);
+
+//wchar_t
+char		*ft_wstr(int *arr, int precision);
+char		*ft_wchar(int wchar);
 #endif

@@ -27,3 +27,14 @@ void	error(char *descript, char *opts)
 	}
 	ft_putchar_fd('\n', 2);
 }
+
+void	error_c(char *descript, char c)
+{
+	ft_putstr_fd("\033[1;32m\033[04mft_printf :", 2);
+	ft_putstr_fd("\033[00;31mERROR\n\033[00m\t", 2);
+	ft_putstr_fd(descript, 2);
+	ft_putstr_fd(" \033[00m'\033[1;32m", 2);
+	ft_putchar_fd(c, 2);
+	ft_putstr_fd("\033[00m'",2);
+	ft_putchar_fd('\n', 2);
+}

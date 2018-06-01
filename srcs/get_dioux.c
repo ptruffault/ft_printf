@@ -21,7 +21,7 @@ static intmax_t get_signed_ent(va_list *ap, t_param *p)
 		ret = -ret;
 		p->signe = '-';
 	}
-	else if (p->flag && (ft_strchr(p->flag, '+') || ft_strchr(p->flag, ' ')))
+	else if (TEST_FLAG('+'))
 		p->signe = '+';
 	return (ret);
 }
@@ -34,7 +34,7 @@ static uintmax_t get_unsigned_ent(va_list *ap, t_param *p)
 		ret = (unsigned int)va_arg(*ap, unsigned int);
 	else if (p->elen == h)
 		ret = (unsigned short int)va_arg(*ap, unsigned int);
-	else if (p->elen == l)
+	else if (p->elen == l || p->spec == 'O' || p->spec == 'U')
 		ret = (unsigned long int)va_arg(*ap, unsigned long int);
 	else if (p->elen == ll)
 		ret = (unsigned long long int)va_arg(*ap, unsigned long long int);
@@ -52,14 +52,24 @@ static char	*parse_spec(t_param *p, va_list *ap)
 //printf("flag = %s \nspec = %c length = %i \nprecision = %i\nlargeur = %i\n",p->flag, p->spec  , p->elen , p->precision ,p->width  );
 	if (p->spec == 'd' || p->spec == 'i')
 		return(ft_itoa_base_intmax(get_signed_ent(ap, p), 10));
-	else if (p->spec == 'o')
+	if (p->spec == 'o' || p->spec == 'O')
 		return (ft_itoa_base_unintmax(get_unsigned_ent(ap, p), 8));
-	else if (p->spec == 'u')
+	if (p->spec == 'u' || p->spec == 'U')
 		return (ft_itoa_base_unintmax(get_unsigned_ent(ap, p), 10));
-	else if (p->spec == 'x')
+	if (p->spec == 'x')
 		return (ft_itoa_base_unintmax(get_unsigned_ent(ap, p), 16));
-	else if (p->spec == 'X')
+	if (p->spec == 'X')
 		return (ft_strmap_i(ft_itoa_base_unintmax(get_unsigned_ent(ap, p), 16), ft_toupper));
+	if (p->spec == 'p')
+		return (ft_itoa_base_unintmax((uintmax_t)va_arg(ap, void *), 16));
+	if (p->spec == 'S' || (p->spec == 's' && p->elen == l))
+		return(ft_strdup(ft_wstr(va_arg(*ap, wchar_t *), p->precision)));
+	if (p->spec == 's')
+		return (ft_strdup(va_arg(*ap, char *)));
+	if (p->spec == 'C' || (p->spec == 'c' && p->elen == l))
+		return (ft_wchar(va_arg(*ap, wchar_t)));
+	if (p->spec == 'c' || (p->spec == 'C' && p->elen == h))
+		return (char_to_str(va_arg(*ap, int)));	
 	return (NULL);
 }
 
@@ -75,26 +85,33 @@ static char *get_prefix(t_param *p, char *tmp_val)
 	p->var_len = ft_strlen(tmp_val);
 	if (p->signe != '?')
 		tab[i++] = char_to_str(p->signe);
-	if (TEST_FLAG('#'))
-		tab[i++] = get_dat_flag(p);
-	if (p->precision > p->var_len)
+	else if (TEST_FLAG(' ') && (p->spec == 'i' || p->spec == 'd'))
+		tab[i++] = ft_strdup(" \0");
+	if (TEST_FLAG('#') || p->spec == 'p')
+		tab[i++] = get_ox(p);
+	if (p->precision > p->var_len && TEST_SPEC_NBR(p->spec))
 		tab[i++] = ft_strnew_nchar('0', p->precision - p->var_len);
+	if (p->precision < p->var_len && (p->spec == 's' || p->spec == 'S'))
+	{
+		tmp_val[p->precision] = '\0';
+	}
 	if ((p->width > p->var_len && TEST_FLAG('0') && !TEST_FLAG('-'))) 
 		tab[i++] = ft_strnew_nchar('0', p->width - p->var_len);
 	tab[i] = NULL;
 	ret = ft_arr_to_str(tab);
-		p->var_len = ft_strlen(ret) + ft_strlen(tmp_val);
+	p->var_len = ft_strlen(ret) + ft_strlen(tmp_val);
 	ft_freenstrarr(tab, 5);
+
 	return (ret);
 }
 
-char 	*get_dioux(t_param *p, va_list *ap)
+char 	*get_value(t_param *p, va_list *ap)
 {
 	char *prefix;
 	char *tmp_val;
 
 	if (!(tmp_val = parse_spec(p, ap)))
-		return (NULL);
+		return (ft_strdup("(null)"));
 	prefix = get_prefix(p, tmp_val);
 	if (p->width > p->var_len && !TEST_FLAG('0') && !TEST_FLAG('-'))
 		prefix = ft_strjoin_fr(ft_strnew_nchar(' ', p->width - p->var_len), prefix);

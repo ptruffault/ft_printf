@@ -83,12 +83,11 @@ char *ft_modifier(t_param *param, char *ptr)
 {
 	if ((*ptr == 's' || *ptr == 'S' || *ptr == 'p' || *ptr == 'd' || *ptr == 'D' ||
 	*ptr == 'i' || *ptr == 'o' || *ptr == 'O' || *ptr == 'u' || *ptr == 'U' ||
-	*ptr == 'x' || *ptr == 'X' || *ptr == 'c' || *ptr == 'C')
-	&& (IS_SPACE(*(ptr + 1)) || *(ptr + 1) == '\0' || *(ptr + 1) == '\n'))
-		param->spec = *ptr;
+	*ptr == 'x' || *ptr == 'X' || *ptr == 'c' || *ptr == 'C'))
+		param->spec = *ptr++;
 	else
 	{
-		error("param must end with a type convertion modifier followed by a space", NULL);
+		error_c("invalid type specifier :", *ptr);
 		return (NULL);
 	}	
 	return (ptr);	
