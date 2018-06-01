@@ -32,7 +32,7 @@ $(NAME):
 	@make -C ./libft/ all
 	@echo "$(SUCESS)"
 	@echo "$(COULEUR) -Creating $(NAME) \033[00m"
-	@gcc $(CFLAGS) $(SRC) -I ./libft/ -Llibft/ -lft
+	@gcc -c $(CFLAGS) $(SRC) -I ./libft/ -Llibft/ -lft
 	@echo "$(SUCESS)"
 
 clear:
