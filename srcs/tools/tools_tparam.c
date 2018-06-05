@@ -83,7 +83,7 @@ char *ft_modifier(t_param *param, char *ptr)
 {
 	if ((*ptr == 's' || *ptr == 'S' || *ptr == 'p' || *ptr == 'd' || *ptr == 'D' ||
 	*ptr == 'i' || *ptr == 'o' || *ptr == 'O' || *ptr == 'u' || *ptr == 'U' ||
-	*ptr == 'x' || *ptr == 'X' || *ptr == 'c' || *ptr == 'C'))
+	*ptr == 'x' || *ptr == 'X' || *ptr == 'c' || *ptr == 'C') || *ptr == '%')
 		param->spec = *ptr++;
 	else
 	{

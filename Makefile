@@ -9,92 +9,65 @@
 #    Updated: 2018/01/07 16:59:07 by ptruffau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-NAME		= ft_printf
-
-FOLDERS 	= ft_printf/
-			
+NAME		= libftprintf.a
 GIT 		= https://github.com/ptruffault/ft_printf.git
 
-SRC			= 	srcs/*.c \
-				srcs/tools/*.c
+FLAG		= -Wall -Wextra -Werror
 
-CFLAGS		= -Wall -Werror -Wextra
+FILES		= 	get_val.c \
+				ft_printf.c \
+				param.c  
 
-COULEUR		= \033[01;34m
+TOOLS 		= 	error.c \
+				wchar_utils.c \
+				fun_tools.c \
+				get_ox.c \
+				tools_tparam.c
 
-SUCESS		= [\033[1;32mOK\033[00m]\n
+FILE_FOLDER	= ./srcs/
+TOOLS_FOLDER= ./srcs/tools/
+OBJ_FOLDER 	= ./bin/
+SRC			= $(addprefix $(FILE_FOLDER), $(FILES)) $(addprefix $(TOOLS_FOLDER), $(TOOLS)) 
+OBJ			= $(addprefix $(OBJ_FOLDER), $(FILES:.c=.o)) $(addprefix $(OBJ_FOLDER), $(TOOLS:.c=.o))
+
+COLOR		= \033[01;34m
+NO_COLOR	= \033[00m
+OP_COLOR	= \033[1;31m
+DONE 		= $(NO_COLOR)[\033[1;32mOK$(NO_COLOR)]
 
 all: $(NAME)
 
-$(NAME):
-	@echo "$(COULEUR) -Creating libft.a \033[00m"
-	@make -C ./libft/ all
-	@echo "$(SUCESS)"
-	@echo "$(COULEUR) -Creating $(NAME) \033[00m"
-	@gcc -c $(CFLAGS) $(SRC) -I ./libft/ -Llibft/ -lft
-	@echo "$(SUCESS)"
+$(NAME): $(OBJ)
+	@make -C libft all
+	@echo "$(OP_COLOR) building $(NAME)"
+	@ar rc $@ $^ libft/*.o
+	@ranlib $@
+	@echo "$(DONE)"
+
+bin/%.o: srcs/%.c 
+	@gcc $(FLAG) -I includes/ -c $< -o $@
+	@echo "$(COLOR)$< : $(DONE)"
+
+bin/%.o: srcs/tools/%.c
+	@gcc $(FLAG) -I includes/ -c $< -o $@		
+	@echo "$(COLOR)$< : $(DONE)"
 
 clear:
 	@clear
 
 clean:
-	@make -C ./libft/ clean
+	@rm -rf $(NAME)
 
-fclean:
-	@echo "$(COULEUR) -Cleaning\033[00m"
-	@make -C ./libft/ fclean
-	@echo "$(COULEUR)\t +delete $(NAME) \033[00m"
-	@rm -f $(NAME)
-	@echo "$(SUCESS)"
+fclean: clean
+	@rm -rf $(OBJ)
 
-re:	clear all
+mrpropre: fclean
+	@make -C libft fclean
 
-save: clear fclean
-	@git add *
-	@git commit -m "make save"
+re: clear fclean all
+
+save: clear mrpropre
+	@git add * srcs/* srcs/tools/* includes/*
+	@git commit -m  "make save"
 	@git push
-	@echo "$(SUCESS)"
-
-load: clear fclean
-	@rm -rf srcs
-	@rm -rf includes
-	@rm -rf libft
-	@rm -rf auteur
-	@git clone $(GIT)
-	@cp -r $(FOLDERS)srcs .
-	@cp -r $(FOLDERS)includes .
-	@cp -r $(FOLDERS)libft .
-	@cp $(FOLDERS)auteur .
-	@rm -rf $(FOLDERS)
-	@echo "$(SUCESS)"
-
-build_folders:
-	@echo "$(COULEUR)*Creating folders\033[00m"
-	@mkdir srcs
-	@mkdir srcs/tools
-	@mkdir includes
-
-build_tools:
-	@echo "#include \"../../includes/$(NAME).h\"" > srcs/tools/tools_1.c
-
-build_file:
-	@echo "#include \"../includes/$(NAME).h\"" > srcs/file_1.c
-
-build_h:
-	@echo "$(COULEUR)*Creating $(NAME).h main.c and files\033[00m"
-	@echo "#ifndef $(MAJ_NAME)_H\n#define $(MAJ_NAME)_H\n# include \"libft/libft.h\"\n#endif" > includes/$(NAME).h
-
-download_libft:
-	@echo "$(COULEUR)*download libft\033[00m"
-	@git clone https://github.com/ptruffault/libft.git
-	@echo "$(SUCESS)"
-
-build_main:
-	@echo "#include \"../includes/$(NAME).h\"\n\nint\tmain(void)\n{\n\n\treturn (0);\n}" > srcs/main.c
-
-build: clear build_folders build_file build_tools build_h build_main download_libft
-	@echo ptruffau > auteur
-	@echo "$(SUCESS)"
-
-.PHONY: all small_clean clean fclean re fast_re
+	@echo "$(DONE)"

@@ -1,48 +1,36 @@
 #include "../includes/ft_printf.h"
 
-char *ft_vsprintf(char *format, va_list *ap)
+void	print(char *format, t_param *p)
 {
 	int i;
-	int j;
-	char *ret;
 
 	i = 0;
-	j = 0;
-	if (!(ret = ft_strnew(1)))
-		return (NULL);
 	while (format[i] != '\0')
 	{
-		if (format[i] == '%' && !(ret = add_value(format, ret, &i, &j, ap)))
-			return (NULL); 
-		else
+		if  (format[i] == '%')
 		{
-			if (!(ret = ft_realloc(ret, j + 1, j + 2)))
-				return (NULL);
-			ret[j++] = format[i++];
-		}
-	}
-	ret[j + 1] = '\0';
-	return (ret);
-}
+			ft_putstr(p->value);
+			i = i + p->opts_len;
+			p = p->next;
 
+		}
+		else
+			ft_putchar(format[i++]);
+	}
+}
 
 int ft_printf(char *format, ...)
 {
 	va_list ap;
-	char *tmp;
-	int ret;
+	t_param *p;
 
 	va_start(ap, format);
-	if (!(tmp = ft_vsprintf(format, &ap)))
-	{
-		error("impossible to get the output string", "(ft_sprintf)");
-		return (-1);	
-	}
-	ret = ft_strlen(tmp);
-	ft_putstr(tmp);
-	free(tmp);
+	if (!(p = init_tparam(format, &ap)))
+		return (-1);
+	print(format, p);
+	free_tparam(p);
 	va_end(ap);
-	return (ret);
+	return (0);
 }
 
 

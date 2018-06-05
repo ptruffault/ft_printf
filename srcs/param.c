@@ -1,55 +1,79 @@
 #include "../includes/ft_printf.h"
 
-static void 	raz_param(t_param *p)
+void	free_tparam(t_param *p)
 {
+	t_param *tmp;
+
+	while (p)
+	{
+		tmp = p->next;
+		ft_strdel(&p->flag);
+		ft_strdel(&p->value);
+		free(p);
+		p = NULL;
+		p = tmp;
+	}
+}
+
+t_param *add_tparam(void)
+{
+	t_param *p;
+
+	if (!(p = (t_param *)malloc(sizeof(t_param))))
+		return (NULL);
 	p->flag = NULL;
 	p->width = 0;
 	p->precision = -1;
 	p->spec = '?';
 	p->signe = '?';
-	p->var_len = -1;
 	p->value = NULL;
 	p->elen = off;
+	p->var_len = 0;
+	p->opts_len = 0;
+	p->next = NULL;
+	return (p);
 }
 
 //initialise t_param
-static int	init(t_param *param, char *format, int *i)
+t_param *new_tparam(char *format, va_list *ap, t_param *p)
 {
-	
 	char *ptr;
-	raz_param(param);
 
 	ptr = format;
-	if (!(ptr = ft_flag(param, ptr))	||
-	!(ptr = ft_width(param, ptr)) 		||
-	!(ptr = ft_precision(param, ptr)) 	||
-	!(ptr = ft_length(param, ptr)) 		|| 
-	!(ptr = ft_modifier(param, ptr)))
+	if (!(ptr = ft_flag(p, ptr))			||
+	!(ptr = ft_width(p, ptr)) 				||
+	!(ptr = ft_precision(p, ptr)) 			||
+	!(ptr = ft_length(p, ptr)) 				|| 
+	!(ptr = ft_modifier(p, ptr))			||
+	!(p->value = get_value(p, ap)))
 	{
 		error("istruction init failed", NULL);
-		return (-1);
+		return (NULL);
 	}
-	*i = *i + (ptr - format) + 1;
-	return (0);
+	p->opts_len = (ptr - format) + 1;
+	return (p);
 }
 
-char	*add_value(char *format ,char *str, int *i, int *j, va_list *ap)
+t_param *init_tparam(char *format, va_list *ap)
 {
-	t_param param;
-	char *ret;
-	char *value;
+	int i;
+	t_param *p;
+	t_param *tmp;
 
-	if (init(&param, &format[*i + 1], i) != 0)
-		return (NULL);
-	if (!(value = get_value(&param, ap)))
+	p = add_tparam();
+	tmp = p;
+	i = 0;
+	while (format[i])
 	{
-		error("impossible to get value", NULL);
-		return (NULL);
+		if (format[i] == '%')
+		{
+			tmp = new_tparam(&format[i + 1], ap, tmp);
+			i = i + tmp->opts_len;
+			tmp->next = add_tparam();
+			tmp = tmp->next;
+		}
+		else
+			i++;
 	}
-	*j = *j + ft_strlen(value);
-	if (!(ret = ft_strjoin_fr(str, value)))
-		return (NULL);
-	ft_free(param.flag);
-	raz_param(&param);
-	return (ret);
+	return (p);
 }

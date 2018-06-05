@@ -7,7 +7,7 @@ char		*ft_wchar(int wchar)
 	unsigned char	three_bytes[4];
 
 	if (wchar < 128)
-		return (char_to_str(wchar));
+		return (ft_char_to_str(wchar));
 	if (wchar > 127 && wchar < 2048)
 	{
 		two_bytes[0] = (wchar >> 6) + 192;

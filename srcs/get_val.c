@@ -69,7 +69,9 @@ static char	*parse_spec(t_param *p, va_list *ap)
 	if (p->spec == 'C' || (p->spec == 'c' && p->elen == l))
 		return (ft_wchar(va_arg(*ap, wchar_t)));
 	if (p->spec == 'c' || (p->spec == 'C' && p->elen == h))
-		return (char_to_str(va_arg(*ap, int)));	
+		return (ft_char_to_str(va_arg(*ap, int)));
+	if  (p->spec == '%')
+		return (ft_char_to_str('%'));
 	return (NULL);
 }
 
@@ -84,17 +86,13 @@ static char *get_prefix(t_param *p, char *tmp_val)
 		return (NULL);
 	p->var_len = ft_strlen(tmp_val);
 	if (p->signe != '?')
-		tab[i++] = char_to_str(p->signe);
+		tab[i++] = ft_char_to_str(p->signe);
 	else if (TEST_FLAG(' ') && (p->spec == 'i' || p->spec == 'd'))
 		tab[i++] = ft_strdup(" \0");
 	if (TEST_FLAG('#') || p->spec == 'p')
 		tab[i++] = get_ox(p);
 	if (p->precision > p->var_len && TEST_SPEC_NBR(p->spec))
 		tab[i++] = ft_strnew_nchar('0', p->precision - p->var_len);
-	if (p->precision < p->var_len && (p->spec == 's' || p->spec == 'S'))
-	{
-		tmp_val[p->precision] = '\0';
-	}
 	if ((p->width > p->var_len && TEST_FLAG('0') && !TEST_FLAG('-'))) 
 		tab[i++] = ft_strnew_nchar('0', p->width - p->var_len);
 	tab[i] = NULL;
@@ -111,8 +109,14 @@ char 	*get_value(t_param *p, va_list *ap)
 	char *tmp_val;
 
 	if (!(tmp_val = parse_spec(p, ap)))
-		return (ft_strdup("(null)"));
+		return (ft_strdup("(null)")); 
 	prefix = get_prefix(p, tmp_val);
+	if (p->precision < p->var_len && p->precision != -1 &&
+	 (p->spec == 's' || p->spec == 'S'))
+	{
+		tmp_val = ft_strndup_fr(tmp_val, p->precision);
+		p->var_len = ft_strlen(tmp_val);
+	}
 	if (p->width > p->var_len && !TEST_FLAG('0') && !TEST_FLAG('-'))
 		prefix = ft_strjoin_fr(ft_strnew_nchar(' ', p->width - p->var_len), prefix);
 	else if (p->width > p->var_len && TEST_FLAG('-'))

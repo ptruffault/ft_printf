@@ -5,7 +5,7 @@ char *get_ox(t_param *p)
 	char *ret;
 
 	if (p->spec != 'o' && p->spec != 'x' && p->spec != 'O' && p->spec != 'X' && p->spec != 'p')
-		warning("flag '#' incompatible with type sprecifier :", char_to_str(p->spec));
+		warning("flag '#' incompatible with type sprecifier :", ft_char_to_str(p->spec));
 	else if (((p->spec == 'o' || p->spec =='O') && !(ret = ft_strdup("0\0")))
 	|| (p->spec == 'x' && !(ret = ft_strdup("oX\0")))
 	|| (p->spec == 'X' && !(ret = ft_strdup("0X\0")))
