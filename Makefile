@@ -79,7 +79,5 @@ save: clear mrpropre
 
 load:
 	@rm -rf *
-	@git clone $(GIT) TMP
-	@mv TMP/* .
-	@rm -rf TMP libft
+	@git clone $(GIT) TMP && mv TMP/* . && rm -rf TMP libft
 	@git clone https://github.com/ptruffault/libft.git
