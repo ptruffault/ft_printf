@@ -35,7 +35,7 @@ NO_COLOR	= \033[00m
 OP_COLOR	= \033[1;31m
 DONE 		= $(NO_COLOR)[\033[1;32mOK$(NO_COLOR)]
 
-all: $(NAME)
+all: bin $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C libft all
@@ -43,6 +43,9 @@ $(NAME): $(OBJ)
 	@ar rc $@ $^ libft/bin/*.o
 	@ranlib $@
 	@echo "$(DONE)"
+
+bin:
+	@mkdir $@
 
 bin/%.o: srcs/%.c 
 	@gcc $(FLAG) -I includes/ -c $< -o $@
