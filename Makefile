@@ -66,8 +66,19 @@ mrpropre: fclean
 
 re: clear fclean all
 
+
+chmod:
+	@chmod 777 * $(SRC) includes/ft_printf.h 
+	@make -C ./libft chmod
+
 save: clear mrpropre
 	@git add * srcs/* srcs/tools/* includes/*
 	@git commit -m  "make save"
 	@git push
 	@echo "$(DONE)"
+
+load:
+	@rm -rf *
+	@git clone $(GIT) TMP
+	@mv TMP/* .
+	@rm -rf TMP libft
