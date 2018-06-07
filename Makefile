@@ -40,7 +40,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C libft all
 	@echo "$(OP_COLOR) building $(NAME)"
-	@ar rc $@ $^ libft/*.o
+	@ar rc $@ $^ libft/bin/*.o
 	@ranlib $@
 	@echo "$(DONE)"
 
