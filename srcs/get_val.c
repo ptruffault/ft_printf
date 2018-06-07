@@ -63,7 +63,7 @@ static char	*parse_spec(t_param *p, va_list *ap)
 	if (p->spec == 'p')
 		return (ft_itoa_base_unintmax(va_arg(ap, uintmax_t), 16));
 	if (p->spec == 'S' || (p->spec == 's' && p->elen == l))
-		return(ft_strdup(ft_wstr(va_arg(*ap, wchar_t *), p->precision)));
+		return(ft_strdup(ft_wstr(va_arg(*ap, int *), p->precision)));
 	if (p->spec == 's')
 		return (ft_strdup(va_arg(*ap, char *)));
 	if (p->spec == 'C' || (p->spec == 'c' && p->elen == l))
