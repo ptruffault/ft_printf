@@ -14,6 +14,8 @@ static intmax_t get_signed_ent(va_list *ap, t_param *p)
 		ret = (signed long long int)va_arg(*ap, signed long long int);
 	else if (p->elen == j)
 		ret = (intmax_t )va_arg(*ap, intmax_t );
+	else if (p->elen == z)
+		ret = (size_t)va_arg(*ap, size_t);
 	else if (p->elen == off)
 		ret = va_arg(*ap, int);
 	if (ret < 0)
