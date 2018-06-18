@@ -49,11 +49,11 @@ bin:
 
 bin/%.o: srcs/%.c 
 	@gcc $(FLAG) -I includes/ -c $< -o $@
-	@echo "$(COLOR)$< : $(DONE)"
+	@echo "$(DONE) $(COLOR)$<"
 
 bin/%.o: srcs/tools/%.c
 	@gcc $(FLAG) -I includes/ -c $< -o $@		
-	@echo "$(COLOR)$< : $(DONE)"
+	@echo "  $(DONE) $(COLOR)$<"
 
 clear:
 	@clear
@@ -71,7 +71,7 @@ re: clear fclean all
 
 
 chmod:
-	@chmod 777 * $(SRC) includes/ft_printf.h 
+	@chmod 777 * $(SRC) includes/ft_printf.h srcs/* srcs/tools/*
 	@make -C ./libft chmod
 
 save: clear mrpropre
@@ -80,7 +80,12 @@ save: clear mrpropre
 	@git push
 	@echo "$(DONE)"
 
-load:
+update:
+	@echo "$(OP_COLOR)download lastest $(NAME) version$(NO_COLOR)"
 	@rm -rf *
 	@git clone $(GIT) TMP && mv TMP/* . && rm -rf TMP libft
+	@echo "$(OP_COLOR)download lastest libft version$(NO_COLOR)"
 	@git clone https://github.com/ptruffault/libft.git
+
+
+.PHONY: all clear clean fclean mrpropre re chmod save update

@@ -4,7 +4,6 @@ static intmax_t get_signed_ent(va_list *ap, t_param *p)
 {
 	intmax_t ret;
 
-	ret = NULL;
 	if (p->elen == hh)
 		ret = va_arg(*ap, int);
 	else if (p->elen == h)
@@ -17,7 +16,7 @@ static intmax_t get_signed_ent(va_list *ap, t_param *p)
 		ret = (intmax_t )va_arg(*ap, intmax_t );
 	else if (p->elen == z)
 		ret = (size_t)va_arg(*ap, size_t);
-	else (p->elen == off)
+	else
 		ret = va_arg(*ap, int);
 	if (ret < 0)
 	{
@@ -33,7 +32,6 @@ static uintmax_t get_unsigned_ent(va_list *ap, t_param *p)
 {
 	uintmax_t ret;
 
-	ret = 0;
 	if (p->elen == hh)
 		ret = (unsigned int)va_arg(*ap, unsigned int);
 	else if (p->elen == h)
