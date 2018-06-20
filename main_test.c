@@ -5,10 +5,10 @@ int main(void)
 {
 
 	int i = 42;
-	ft_printf("|%5.4i|\n", i);
-	printf("|%5.4i|\n\n", i);
+	ft_printf("|%5.4x|\n", i);
 
-	ft_printf("|%d|\n", i);
+
+ft_printf("|%d|\n", i);
 	printf("|%d|\n\n", i);
 
 	long int li = 42;
@@ -55,7 +55,7 @@ int main(void)
 
 	ft_printf("|%x|\n", i);
 	printf("|%x|\n\n",i );
-
+/*	
 	ft_printf("|%X|\n", i);
 	printf("|%X|\n\n",i );
 
@@ -63,6 +63,8 @@ int main(void)
 	ft_printf("|%c|\n", c);
 	printf("|%c|\n\n",c );
 	
+
+
 	wchar_t C = L'é';
 	ft_printf("|%C|\n", C);
 	printf("|%C|\n\n",C );
@@ -120,7 +122,7 @@ printf("\033[01;34mTEST 1\033[00m\n");
 	printf("%d\n", printf("{%#04X}", 42));
 	printf("%d\n", ft_printf("{%#04X}", 42));
 	printf("\033[1;32m%%#04X [OK] :\n\n\033[00m\n");
-	
-	
+
+	*/
 	return 0;
 }

@@ -57,11 +57,11 @@ static char	*parse_spec(t_param *p, va_list *ap)
 	if (p->spec == 'x')
 		return (ft_itoa_base_unintmax(get_unsigned_ent(ap, p), 16));
 	if (p->spec == 'X')
-		return (ft_strmap_i(ft_itoa_base_unintmax(get_unsigned_ent(ap, p), 16), ft_toupper));
+		return (ft_strmap_i_fr(ft_itoa_base_unintmax(get_unsigned_ent(ap, p), 16), ft_toupper));
 	if (p->spec == 'p')
 		return (ft_itoa_base_unintmax(va_arg(*ap, uintmax_t), 16));
 	if (p->spec == 'S' || (p->spec == 's' && p->elen == l))
-		return(ft_strdup(ft_wstr(va_arg(*ap, int *), p->precision)));
+		return(ft_wstr(va_arg(*ap, int *), p->precision));
 	if (p->spec == 's')
 		return (ft_strdup(va_arg(*ap, char *)));
 	if (p->spec == 'C' || (p->spec == 'c' && p->elen == l))

@@ -43,10 +43,11 @@ char		*ft_wstr(int *arr, int precision)
 		{
 			len += ft_strlen(symb);
 			if (len <= precision)
-				str = ft_strjoin(str, symb);
+				str = ft_strjoin_fr(str, symb);
 		}
 		else
 			str = ft_strcat(str, symb);
+		ft_strdel(&symb);
 	}
 	str[ft_strlen(str)] = '\0';
 	return (str);

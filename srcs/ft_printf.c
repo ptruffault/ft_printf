@@ -16,7 +16,6 @@ void	print(char *format, t_param *p)
 			if (p->width > p->var_len && TEST_FLAG('-'))
 				ft_putnchar(' ', p->width - p->var_len);
 			i = i + p->opts_len;
-			
 			p = p->next;
 		}
 		else

@@ -50,7 +50,7 @@ int ft_printf(char *format, ...);
 //tools.c
 char	*my_strjoin(char *s1, char *s2);
 void	ft_putnchar(char c, int n);
-char	*ft_strmap_i(char const *s, int (*f)(int));
+char	*ft_strmap_i_fr(char *s, int (*f)(int));
 char	*ft_strndup_fr(char *str, int n);
 
 //tools_tparam.c
@@ -61,6 +61,7 @@ char *ft_length(t_param *param, char *ptr);
 char *ft_modifier(t_param *param, char *ptr);
 t_param *init_tparam(char *format, va_list *ap);
 void	free_tparam(t_param *p);
+void	del_tparam(t_param *p);
 
 
 //get_value
