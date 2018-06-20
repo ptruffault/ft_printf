@@ -55,3 +55,9 @@ char	*ft_strndup_fr(char *str, int n)
 	ft_strdel(&str);
 	return (new);
 }
+
+void	ft_putnchar(char c, int n)
+{
+	while (n-- > 0)
+		ft_putchar(c);
+}

@@ -18,8 +18,7 @@ FILES		= 	get_val.c \
 				ft_printf.c \
 				param.c  
 
-TOOLS 		= 	error.c \
-				wchar_utils.c \
+TOOLS 		= 	wchar_utils.c \
 				fun_tools.c \
 				get_ox.c \
 				tools_tparam.c

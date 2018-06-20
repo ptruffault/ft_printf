@@ -46,16 +46,12 @@ int ft_printf(char *format, ...);
 
 
 
-char	*my_strjoin(char *s1, char *s2);
 
 //tools.c
+char	*my_strjoin(char *s1, char *s2);
+void	ft_putnchar(char c, int n);
 char	*ft_strmap_i(char const *s, int (*f)(int));
-void	error(char *descript, char *opts);
-void	error_c(char *descript, char c);
-void	warning(char *descript, char *opts);
-void	ft_freenstrarr(char **arr, int n);
 char	*ft_strndup_fr(char *str, int n);
-void	ft_free(void *ptr);
 
 //tools_tparam.c
 char *ft_flag(t_param *param, char *ptr);
@@ -66,9 +62,6 @@ char *ft_modifier(t_param *param, char *ptr);
 t_param *init_tparam(char *format, va_list *ap);
 void	free_tparam(t_param *p);
 
-//base
-char		*ft_itoa_base_intmax(intmax_t value, int base);
-char		*ft_itoa_base_unintmax(uintmax_t value, int base);
 
 //get_value
 char 	*get_value(t_param *param, va_list *ap);

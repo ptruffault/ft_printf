@@ -1,5 +1,13 @@
 #include "../includes/ft_printf.h"
 
+void	del_tparam(t_param *p)
+{
+	ft_strdel(&p->flag);
+	ft_strdel(&p->value);
+	free(p);
+	p = NULL;
+}
+
 void	free_tparam(t_param *p)
 {
 	t_param *tmp;
@@ -7,10 +15,7 @@ void	free_tparam(t_param *p)
 	while (p)
 	{
 		tmp = p->next;
-		ft_strdel(&p->flag);
-		ft_strdel(&p->value);
-		free(p);
-		p = NULL;
+		del_tparam(p);
 		p = tmp;
 	}
 }
@@ -34,7 +39,6 @@ t_param *add_tparam(void)
 	return (p);
 }
 
-//initialise t_param
 t_param *new_tparam(char *format, va_list *ap, t_param *p)
 {
 	char *ptr;
