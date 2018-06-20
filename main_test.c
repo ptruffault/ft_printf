@@ -55,7 +55,7 @@ ft_printf("|%d|\n", i);
 
 	ft_printf("|%x|\n", i);
 	printf("|%x|\n\n",i );
-/*	
+
 	ft_printf("|%X|\n", i);
 	printf("|%X|\n\n",i );
 
@@ -123,6 +123,6 @@ printf("\033[01;34mTEST 1\033[00m\n");
 	printf("%d\n", ft_printf("{%#04X}", 42));
 	printf("\033[1;32m%%#04X [OK] :\n\n\033[00m\n");
 
-	*/
+	
 	return 0;
 }
