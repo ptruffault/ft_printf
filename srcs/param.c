@@ -1,26 +1,6 @@
 #include "../includes/ft_printf.h"
 
-void	del_tparam(t_param *p)
-{
-	ft_strdel(&p->flag);
-	ft_strdel(&p->value);
-	free(p);
-	p = NULL;
-}
-
-void	free_tparam(t_param *p)
-{
-	t_param *tmp;
-
-	while (p)
-	{
-		tmp = p->next;
-		del_tparam(p);
-		p = tmp;
-	}
-}
-
-t_param *add_tparam(void)
+static t_param *add_tparam(void)
 {
 	t_param *p;
 
@@ -39,16 +19,16 @@ t_param *add_tparam(void)
 	return (p);
 }
 
-t_param *new_tparam(char *format, va_list *ap, t_param *p)
+static t_param *new_tparam(char *format, va_list *ap, t_param *p)
 {
 	char *ptr;
 
 	ptr = format;
-	if (!(ptr = ft_flag(p, ptr))			||
-	!(ptr = ft_width(p, ptr)) 				||
-	!(ptr = ft_precision(p, ptr)) 			||
-	!(ptr = ft_length(p, ptr)) 				|| 
-	!(ptr = ft_modifier(p, ptr))			||
+	if (!(ptr = ft_flag(p, ptr)) ||
+	!(ptr = ft_width(p, ptr)) ||
+	!(ptr = ft_precision(p, ptr)) ||
+	!(ptr = ft_length(p, ptr)) ||
+	!(ptr = ft_modifier(p, ptr)) ||
 	!(p->value = get_value(p, ap)))
 	{
 		error("istruction init failed", NULL);
@@ -80,4 +60,19 @@ t_param *init_tparam(char *format, va_list *ap)
 			i++;
 	}
 	return (p);
+}
+
+void	free_tparam(t_param *p)
+{
+	t_param *tmp;
+
+	while (p)
+	{
+		tmp = p->next;
+		ft_strdel(&p->flag);
+		ft_strdel(&p->value);
+		free(p);
+		p = NULL;
+		p = tmp;
+	}
 }

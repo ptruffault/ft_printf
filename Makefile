@@ -73,7 +73,7 @@ chmod:
 	@chmod 777 * $(SRC) includes/ft_printf.h srcs/* srcs/tools/*
 	@make -C ./libft chmod
 
-save: clear mrpropre
+save: clear mrpropre chmod
 	@git add * srcs/* srcs/tools/* includes/*
 	@git commit -m  "make save"
 	@git push
