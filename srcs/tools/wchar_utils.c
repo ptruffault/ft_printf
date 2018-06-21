@@ -1,6 +1,5 @@
 #include "../includes/ft_printf.h"
 
-
 char		*ft_wchar(int wchar)
 {
 	unsigned char	two_bytes[3];

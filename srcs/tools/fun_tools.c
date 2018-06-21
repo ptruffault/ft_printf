@@ -27,21 +27,10 @@ char	*ft_strmap_i_fr(char *s, int (*f)(int))
 	return (new);
 }
 
-void	ft_freenstrarr(char **arr, int n)
-{
-	int i;
-
-	i = 0;
-	while (i < n)
-		ft_strdel(&arr[i++]);
-	free(arr);
-	arr = NULL;
-}
-
 char	*ft_strndup_fr(char *str, int n)
 {
-	char *new;
-	int i;
+	char	*new;
+	int		i;
 
 	i = 0;
 	if (n < 1)

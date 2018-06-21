@@ -50,7 +50,7 @@ int ft_printf(char *format, ...);
 //tools.c
 char	*my_strjoin(char *s1, char *s2);
 void	ft_putnchar(char c, int n);
-char	*ft_strmap_i_fr(char *s, int (*f)(int));
+char	*ft_strmap_i(char *s, int (*f)(int));
 char	*ft_strndup_fr(char *str, int n);
 
 //tools_tparam.c

@@ -60,9 +60,9 @@ t_param *new_tparam(char *format, va_list *ap, t_param *p)
 
 t_param *init_tparam(char *format, va_list *ap)
 {
-	int i;
-	t_param *p;
-	t_param *tmp;
+	int		i;
+	t_param	*p;
+	t_param	*tmp;
 
 	p = add_tparam();
 	tmp = p;
