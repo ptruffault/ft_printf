@@ -6,7 +6,7 @@
 #    By: ptruffau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/16 11:16:13 by ptruffau          #+#    #+#              #
-#    Updated: 2018/01/07 16:59:07 by ptruffau         ###   ########.fr        #
+#    Updated: 2018/06/26 17:08:06 by ptruffau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME		= libftprintf.a
@@ -16,7 +16,8 @@ FLAG		= -Wall -Wextra -Werror
 
 FILES		= 	get_val.c \
 				ft_printf.c \
-				param.c  
+				param.c \
+				disp.c
 
 TOOLS 		= 	wchar_utils.c \
 				fun_tools.c \
@@ -58,12 +59,11 @@ clear:
 	@clear
 
 clean:
-	@rm -rf $(NAME)
+	@rm -rf $(NAME) bin/*
+	@make -C libft clean
+	@echo "$(DONE)$(OP_COLOR) Remove $(NAME) and bin/$(NO_COLOR)"
 
 fclean: clean
-	@rm -rf $(OBJ)
-
-mrpropre: fclean
 	@make -C libft fclean
 
 re: clear fclean all
@@ -73,13 +73,13 @@ chmod:
 	@chmod 777 * $(SRC) includes/ft_printf.h srcs/* srcs/tools/*
 	@make -C ./libft chmod
 
-save: clear mrpropre chmod
+save: clear chmod
 	@git add * srcs/* srcs/tools/* includes/*
 	@git commit -m  "make save"
 	@git push
 	@echo "$(DONE)"
 
-update:
+update: clear
 	@echo "$(OP_COLOR)download lastest $(NAME) version$(NO_COLOR)"
 	@rm -rf *
 	@git clone $(GIT) TMP && mv TMP/* . && rm -rf TMP libft
@@ -87,4 +87,4 @@ update:
 	@git clone https://github.com/ptruffault/libft.git
 
 
-.PHONY: all clear clean fclean mrpropre re chmod save update
+.PHONY: all clear clean fclean re chmod save update

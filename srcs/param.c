@@ -71,7 +71,9 @@ void	free_tparam(t_param *p)
 		tmp = p->next;
 		ft_strdel(&p->flag);
 		ft_strdel(&p->value);
+
 		free(p);
+
 		p = NULL;
 		p = tmp;
 	}

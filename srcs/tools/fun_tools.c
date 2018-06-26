@@ -9,7 +9,7 @@ char	*my_strjoin(char *s1, char *s2)
 	return (ft_strjoin_fr(s1, s2));
 }
 
-char	*ft_strmap_i_fr(char *s, int (*f)(int))
+char	*ft_strmap_i(char *s, int (*f)(int))
 {
 	char	*new;
 	int		i;

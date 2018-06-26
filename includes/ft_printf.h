@@ -43,7 +43,7 @@ typedef struct	s_param
 }				t_param;
 
 int		ft_printf(char *format, ...);
-void	print(char *format, t_param *p);
+int		print(char *format, t_param *p);
 char	*my_strjoin(char *s1, char *s2);
 void	ft_putnchar(char c, int n);
 char	*ft_strmap_i(char *s, int (*f)(int));
