@@ -76,20 +76,20 @@ static char			*parse_spec(t_param *p, va_list *ap)
 static char 		*get_prefix(t_param *p, char *tmp_val)
 {
 	char	*ret;
-	int		i;
 
-	i = 0;
 	ret = NULL;
-	p->var_len = ft_strlen(tmp_val);
+	p->var_len = (ft_strlen(tmp_val) == 0 ? 1 : ft_strlen(tmp_val));
+	if (p->width > p->precision && p->precision > p->var_len && !TEST_FLAG('-'))
+		ret = my_strjoin(ret, ft_strnew_nchar(' ', p->width - p->precision - (p->signe != '?' ? -1 : 0)));
 	if (p->signe != '?')
 		ret = ft_stradd_char(ret, p->signe);
 	else if (TEST_FLAG(' ') && (p->spec == 'i' || p->spec == 'd'))
 		ret = ft_stradd_char(ret, ' ');
 	if (TEST_FLAG('#') || p->spec == 'p')
-		ret = my_strjoin(ret, get_ox(p));
+		ret = my_strjoin(ret, get_ox(p, tmp_val));
 	if (p->precision > p->var_len && TEST_SPEC_NBR(p->spec))
-		ret = my_strjoin(ret, ft_strnew_nchar('0', p->precision - p->var_len));
-	if ((p->width > p->var_len && TEST_FLAG('0') && !TEST_FLAG('-')))
+		ret = my_strjoin(ret, ft_strnew_nchar('0', p->precision - p->var_len + (p->signe != '?' ? -1 : 0)));
+	else if ((p->width > p->var_len && TEST_FLAG('0') && !TEST_FLAG('-')))
 		ret = my_strjoin(ret, ft_strnew_nchar('0', p->width - p->var_len));
 	p->var_len = ft_strlen(ret) + ft_strlen(tmp_val);
 	return (ret);
@@ -103,9 +103,13 @@ char				*get_value(t_param *p, va_list *ap)
 	if (!(tmp_val = parse_spec(p, ap)))
 		return (ft_strdup("(null)")); 
 	prefix = get_prefix(p, tmp_val);
-	if (p->precision < p->var_len && p->precision != -1 &&
-	(p->spec == 's' || p->spec == 'S'))
+	if (p->precision < p->var_len && p->precision != -1 && TEST_STR(p->spec))
 		tmp_val = ft_strndup_fr(tmp_val, p->precision);
+	if (TEST_SPEC_NBR(p->spec) && p->precision == 0 && ft_atoi(tmp_val) == 0)
+	{
+		ft_strdel(&tmp_val);
+		tmp_val = ft_strnew(0);
+	}
 	p->var_len = ft_strlen(tmp_val) + ft_strlen(prefix);
 	return (my_strjoin(prefix, tmp_val));
 }

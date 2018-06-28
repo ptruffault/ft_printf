@@ -56,7 +56,7 @@ char	*ft_modifier(t_param *param, char *ptr);
 t_param	*init_tparam(char *format, va_list *ap);
 void	free_tparam(t_param *p);
 char	*get_value(t_param *param, va_list *ap);
-char	*get_ox(t_param *p);
+char	*get_ox(t_param *p, char *tmp_val);
 char	*ft_wstr(int *arr, int precision);
 char	*ft_wchar(int wchar);
 #endif

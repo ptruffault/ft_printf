@@ -59,10 +59,9 @@
 
 int main(void)
 {
-	ft_printf("%x", 0);
-	ft_printf("%X", 0); 
-	ft_printf("%x", 4294967296);
-	ft_printf("%X", 4294967296);
+	ft_printf("%0+5d\n",42);
+	printf("%0+5d\n",42);
+
 
 	return 0;
 }
