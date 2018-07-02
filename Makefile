@@ -86,5 +86,4 @@ update: clear
 	@echo "$(OP_COLOR)download lastest libft version$(NO_COLOR)"
 	@git clone https://github.com/ptruffault/libft.git
 
-
 .PHONY: all clear clean fclean re chmod save update
