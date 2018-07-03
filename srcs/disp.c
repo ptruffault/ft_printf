@@ -21,21 +21,33 @@ int	print(char *format, t_param *p)
 	ret = 0;
 	while (format[i] != '\0')
 	{
-		if (format[i] == '%')
+		if (format[i] == '%' && format[i + 1] != '\0')
 		{
-			if (p->width > p->var_len && !TEST_FLAG('0') && !TEST_FLAG('-'))
+			if (p->width > p->var_len && !TEST_FLAG('-'))
 			{
 				ft_putnchar(' ', p->width - p->var_len);
 				ret = ret + p->width - p->var_len;
 			}
-			ft_putstr(p->value);
+			else if (TEST_FLAG(' ') && TEST_SIGN(p->spec) && p->signe == '?')
+			{
+				ft_putchar(' ');
+				ret ++;
+			}
+
+			if (TEST_CHAR(p->spec) && p->value[p->var_len -1] == 0)
+			{
+				ret++;
+				ft_putchar('\0');
+			}
+			else
+				ft_putstr(p->value);
+			ret = ret + ft_strlen(p->value) - 1;
 			if (p->width > p->var_len && TEST_FLAG('-'))
 			{
 				ft_putnchar(' ', p->width - p->var_len);
 				ret = ret + p->width - p->var_len;
 			}
 			i = i + p->opts_len;
-			ret = ret + ft_strlen(p->value) - 1;
 			p = p->next;
 		}
 		else

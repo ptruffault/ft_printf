@@ -1,21 +1,56 @@
 #include "../includes/ft_printf.h"
 
+
+
+
+char get_shh(va_list *ap)
+{
+	return(va_arg(*ap, int));
+}
+
+short int get_sh(va_list *ap)
+{
+	return ((signed short int)va_arg(*ap, signed int));
+}
+
+long int get_sl(va_list *ap)
+{
+	return ((signed long int)va_arg(*ap, signed long int));
+}
+
+long long int get_sll(va_list *ap)
+{
+	return ((signed long long int)va_arg(*ap, signed long long int));
+}
+
+intmax_t get_sj(va_list *ap)
+{
+	return ((intmax_t)va_arg(*ap, intmax_t));
+}
+
+size_t	get_sz(va_list *ap)
+{
+	return ((size_t)va_arg(*ap, size_t));
+}
+
+
 static intmax_t		get_ent(va_list *ap, t_param *p)
 {
 	intmax_t ret;
 
+
 	if (p->elen == hh)
-		ret = va_arg(*ap, int);
+		ret = get_shh(ap);
 	else if (p->elen == h)
-		ret = (signed short int)va_arg(*ap, signed int);
+		ret = get_sh(ap);
 	else if (p->elen == l)
-		ret = (signed long int)va_arg(*ap, signed long int);
+		ret = get_sl(ap);
 	else if (p->elen == ll)
-		ret = (signed long long int)va_arg(*ap, signed long long int);
+		ret = get_sll(ap);
 	else if (p->elen == j)
-		ret = (intmax_t)va_arg(*ap, intmax_t);
+		ret = get_sj(ap);
 	else if (p->elen == z)
-		ret = (size_t)va_arg(*ap, size_t);
+		ret = get_sz(ap);
 	else
 		ret = va_arg(*ap, int);
 	if (ret < 0)
@@ -30,6 +65,8 @@ static intmax_t		get_ent(va_list *ap, t_param *p)
 
 static uintmax_t	get_uent(va_list *ap, t_param *p)
 {
+	uintmax_t ret;
+
 	if (p->elen == hh)
 		return ((unsigned int)va_arg(*ap, unsigned int));
 	else if (p->elen == h)
@@ -44,6 +81,7 @@ static uintmax_t	get_uent(va_list *ap, t_param *p)
 		return ((size_t)va_arg(*ap, size_t));
 	else
 		return (va_arg(*ap, unsigned int));
+	return (ret);
 }
 
 static char			*parse_spec(t_param *p, va_list *ap)
@@ -72,14 +110,14 @@ static char			*parse_spec(t_param *p, va_list *ap)
 		return (ft_char_to_str('%'));
 	return (NULL);
 }
-
+/*
 static char 		*get_prefix(t_param *p, char *tmp_val)
 {
 	char	*ret;
 
 	ret = NULL;
-	p->var_len = (ft_strlen(tmp_val) == 0 ? 1 : ft_strlen(tmp_val));
-	if (p->width > p->precision && p->precision > p->var_len && !TEST_FLAG('-'))
+
+	if (p->width > p->var_len && !TEST_FLAG('-'))
 		ret = my_strjoin(ret, ft_strnew_nchar(' ', p->width - p->precision - (p->signe != '?' ? -1 : 0)));
 	if (p->signe != '?')
 		ret = ft_stradd_char(ret, p->signe);
@@ -88,12 +126,38 @@ static char 		*get_prefix(t_param *p, char *tmp_val)
 	if (TEST_FLAG('#') || p->spec == 'p')
 		ret = my_strjoin(ret, get_ox(p, tmp_val));
 	if (p->precision > p->var_len && TEST_SPEC_NBR(p->spec))
-		ret = my_strjoin(ret, ft_strnew_nchar('0', p->precision - p->var_len + (p->signe != '?' ? -1 : 0)));
-	else if ((p->width > p->var_len && TEST_FLAG('0') && !TEST_FLAG('-')))
-		ret = my_strjoin(ret, ft_strnew_nchar('0', p->width - p->var_len));
+		ret = my_strjoin(ret, ft_strnew_nchar('0', p->precision - p->var_len));
+	p->var_len = ft_strlen(ret) + ft_strlen(tmp_val);
+	if ((p->width > p->var_len && TEST_FLAG('0') && !TEST_FLAG('-')))
+		ret = my_strjoin(ret, ft_strnew_nchar('0', p->width - p->var_len + (p->signe != '?' ? -1 : 0)));
 	p->var_len = ft_strlen(ret) + ft_strlen(tmp_val);
 	return (ret);
 }
+*/
+static char 		*get_prefix(t_param *p, char *tmp_val)
+{
+	char *ret;
+	char *tmp;
+
+	ret = NULL;
+	tmp = NULL;
+	p->var_len = (ft_strlen(tmp_val) == 0 ? 1 : ft_strlen(tmp_val));
+	if (p->precision != -1 && p->precision > p->var_len && TEST_SPEC_NBR(p->spec))
+		ret = my_strjoin(ft_strnew_nchar('0', p->precision - p->var_len), ret);
+	p->var_len = p->var_len + ft_strlen(ret);
+	if (TEST_FLAG('#') || p->spec == 'p')
+		tmp = get_ox(p, tmp_val);
+	if (TEST_FLAG('0') && !TEST_FLAG('-') && ((TEST_SPEC_NBR(p->spec) && p->precision == -1) || TEST_SPEC_CHAR(p->spec)) && p->width > p->var_len)
+		ret = my_strjoin(ft_strnew_nchar('0', p->width - p-> var_len - (p->signe != '?' ? 1 : 0)), ret);
+	if (TEST_FLAG('#') || p->spec == 'p')
+		ret = my_strjoin(tmp, ret);
+	if (p->signe != '?')
+		ret = my_strjoin(ft_char_to_str(p->signe), ret);
+
+	p->var_len = p->var_len + ft_strlen(ret);
+	return (ret);
+}
+
 
 char				*get_value(t_param *p, va_list *ap)
 {
@@ -105,7 +169,7 @@ char				*get_value(t_param *p, va_list *ap)
 	prefix = get_prefix(p, tmp_val);
 	if (p->precision < p->var_len && p->precision != -1 && TEST_STR(p->spec))
 		tmp_val = ft_strndup_fr(tmp_val, p->precision);
-	if (TEST_SPEC_NBR(p->spec) && p->precision == 0 && ft_atoi(tmp_val) == 0)
+	if ((TEST_SPEC_NBR(p->spec) || p->spec == 'p') && p->precision == 0 && ft_atoi(tmp_val) == 0)
 	{
 		ft_strdel(&tmp_val);
 		tmp_val = ft_strnew(0);

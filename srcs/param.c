@@ -49,7 +49,7 @@ t_param *init_tparam(char *format, va_list *ap)
 	i = 0;
 	while (format[i])
 	{
-		if (format[i] == '%')
+		if (format[i] == '%' && format[i + 1] != '\0')
 		{
 			tmp = new_tparam(&format[i + 1], ap, tmp);
 			i = i + tmp->opts_len;

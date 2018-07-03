@@ -5,7 +5,7 @@
 # include <stdint.h>
 # include <wchar.h>
 # define TEST_FLAG(x)  ((p->flag && ft_strchr(p->flag, x)) ? 1 : 0)
-# define TEST_SPEC_NBR(x) ((TEST_SIGN(x) || TEST_UNSIGN(x) || x == 'p') ? 1 : 0)
+# define TEST_SPEC_NBR(x) ((TEST_SIGN(x) || TEST_UNSIGN(x)) ? 1 : 0)
 # define TEST_SPEC_CHAR(x) ((TEST_STR(x) || TEST_CHAR(x)) ? 1 : 0)
 # define TEST_SIGN(x) ((x == 'd' || x == 'D' || x == 'i') ? 1 : 0)
 # define TEST_UNSIGN(x) ((TEST_X(x) || TEST_O(x) || TEST_U(x)) ? 1 : 0)
