@@ -12,6 +12,10 @@
 
 #include "../includes/ft_printf.h"
 
+
+
+
+
 int	print(char *format, t_param *p)
 {
 	int i;
@@ -25,23 +29,21 @@ int	print(char *format, t_param *p)
 		{
 			if (p->width > p->var_len && !TEST_FLAG('-'))
 			{
-				ft_putnchar(' ', p->width - p->var_len);
-				ret = ret + p->width - p->var_len;
+				ft_putnchar(' ', p->width - p->var_len - (*p->value == 0 && TEST_CHAR(p->spec) ? 1 : 0));
+				ret = ret + p->width - p->var_len - (*p->value == 0 && TEST_CHAR(p->spec) ? 1 : 0);
 			}
 			else if (TEST_FLAG(' ') && TEST_SIGN(p->spec) && p->signe == '?')
 			{
 				ft_putchar(' ');
-				ret ++;
-			}
-
-			if (TEST_CHAR(p->spec) && p->value[p->var_len -1] == 0)
-			{
 				ret++;
-				ft_putchar('\0');
 			}
+			if (*p->value == 0 && TEST_CHAR(p->spec))
+				ft_putchar('\0');
 			else
+			{
 				ft_putstr(p->value);
-			ret = ret + ft_strlen(p->value) - 1;
+				ret = ret + ft_strlen(p->value) - 1;
+			}
 			if (p->width > p->var_len && TEST_FLAG('-'))
 			{
 				ft_putnchar(' ', p->width - p->var_len);

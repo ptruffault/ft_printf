@@ -69,7 +69,7 @@ static uintmax_t	get_uent(va_list *ap, t_param *p)
 
 	if (p->elen == hh)
 		return ((unsigned int)va_arg(*ap, unsigned int));
-	else if (p->elen == h)
+	else if (p->elen == h && p->spec != 'U')
 		return ((unsigned short int)va_arg(*ap, unsigned int));
 	else if (p->elen == l || p->spec == 'O' || p->spec == 'U')
 		return ((unsigned long int)va_arg(*ap, unsigned long int));
@@ -110,39 +110,16 @@ static char			*parse_spec(t_param *p, va_list *ap)
 		return (ft_char_to_str('%'));
 	return (NULL);
 }
-/*
-static char 		*get_prefix(t_param *p, char *tmp_val)
-{
-	char	*ret;
 
-	ret = NULL;
-
-	if (p->width > p->var_len && !TEST_FLAG('-'))
-		ret = my_strjoin(ret, ft_strnew_nchar(' ', p->width - p->precision - (p->signe != '?' ? -1 : 0)));
-	if (p->signe != '?')
-		ret = ft_stradd_char(ret, p->signe);
-	else if (TEST_FLAG(' ') && (p->spec == 'i' || p->spec == 'd'))
-		ret = ft_stradd_char(ret, ' ');
-	if (TEST_FLAG('#') || p->spec == 'p')
-		ret = my_strjoin(ret, get_ox(p, tmp_val));
-	if (p->precision > p->var_len && TEST_SPEC_NBR(p->spec))
-		ret = my_strjoin(ret, ft_strnew_nchar('0', p->precision - p->var_len));
-	p->var_len = ft_strlen(ret) + ft_strlen(tmp_val);
-	if ((p->width > p->var_len && TEST_FLAG('0') && !TEST_FLAG('-')))
-		ret = my_strjoin(ret, ft_strnew_nchar('0', p->width - p->var_len + (p->signe != '?' ? -1 : 0)));
-	p->var_len = ft_strlen(ret) + ft_strlen(tmp_val);
-	return (ret);
-}
-*/
 static char 		*get_prefix(t_param *p, char *tmp_val)
 {
 	char *ret;
 	char *tmp;
 
-	ret = NULL;
+	ret = NULL;;
 	tmp = NULL;
 	p->var_len = (ft_strlen(tmp_val) == 0 ? 1 : ft_strlen(tmp_val));
-	if (p->precision != -1 && p->precision > p->var_len && TEST_SPEC_NBR(p->spec))
+	if (p->precision != -1 && p->precision > p->var_len && (TEST_SPEC_NBR(p->spec)|| p->spec == '%'))
 		ret = my_strjoin(ft_strnew_nchar('0', p->precision - p->var_len), ret);
 	p->var_len = p->var_len + ft_strlen(ret);
 	if (TEST_FLAG('#') || p->spec == 'p')
@@ -153,7 +130,6 @@ static char 		*get_prefix(t_param *p, char *tmp_val)
 		ret = my_strjoin(tmp, ret);
 	if (p->signe != '?')
 		ret = my_strjoin(ft_char_to_str(p->signe), ret);
-
 	p->var_len = p->var_len + ft_strlen(ret);
 	return (ret);
 }
@@ -162,6 +138,7 @@ static char 		*get_prefix(t_param *p, char *tmp_val)
 char				*get_value(t_param *p, va_list *ap)
 {
 	char *prefix;
+	char *s;
 	char *tmp_val;
 
 	if (!(tmp_val = parse_spec(p, ap)))
@@ -173,6 +150,12 @@ char				*get_value(t_param *p, va_list *ap)
 	{
 		ft_strdel(&tmp_val);
 		tmp_val = ft_strnew(0);
+	}
+	if (*tmp_val == '-')
+	{
+		s = ft_strdup(&tmp_val[1]);
+		ft_strdel(&tmp_val);
+		tmp_val = s;
 	}
 	p->var_len = ft_strlen(tmp_val) + ft_strlen(prefix);
 	return (my_strjoin(prefix, tmp_val));

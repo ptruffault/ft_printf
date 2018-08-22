@@ -59,11 +59,12 @@ clear:
 	@clear
 
 clean:
-	@rm -rf $(NAME) bin/*
+	@rm -rf  bin/*
 	@make -C libft clean
 	@echo "$(DONE)$(OP_COLOR) Remove $(NAME) and bin/$(NO_COLOR)"
 
 fclean: clean
+	rm -rf $(NAME)
 	@make -C libft fclean
 
 re: clear fclean all
@@ -86,4 +87,4 @@ update: clear
 	@echo "$(OP_COLOR)download lastest libft version$(NO_COLOR)"
 	@git clone https://github.com/ptruffault/libft.git
 
-.PHONY: all clear clean fclean re chmod save update
+.PHONY: clear clean fclean re chmod save update

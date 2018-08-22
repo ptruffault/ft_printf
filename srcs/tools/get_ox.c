@@ -7,7 +7,7 @@ char	*get_ox(t_param *p, char *tmp_val)
 	ret = NULL;
 	if (p->spec != 'o' && p->spec != 'x' && p->spec != 'O' && p->spec != 'X'
 	&& p->spec != 'p')
-		warning("'#' incompatible with :", ft_char_to_str(p->spec));
+		warning_c("'#' incompatible with :", p->spec);
 	else if (ft_atoi(tmp_val) != 0 && (((p->spec == 'x' || p->spec == 'p') && !(ret = ft_strdup("0x\0")))
 	|| (p->spec == 'X' && !(ret = ft_strdup("0X\0")))))
 		return (NULL);
