@@ -31,7 +31,7 @@ t_param *init_tparam(char *format, va_list *ap)
 	{
 		if (format[i] == '%' && format[i + 1] != '\0')
 		{
-			tmp = read_option(&format[i + 1], tmp);
+			tmp = read_option(&format[i], tmp);
 			if (tmp->spec != '?')
 				p->value = get_value(p, ap);
 			i = i + tmp->opts_len;
@@ -53,7 +53,8 @@ void	free_tparam(t_param *p)
 		tmp = p->next;
 		ft_strdel(&p->flag);
 		ft_strdel(&p->length);
-		ft_strdel(&p->value);
+		if (p->spec != '?')
+			ft_strdel(&p->value);
 		free(p);
 		p = NULL;
 		p = tmp;
