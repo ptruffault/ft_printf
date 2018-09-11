@@ -5,7 +5,7 @@
 
 char get_shh(va_list *ap)
 {
-	return(va_arg(*ap, int));
+	return((char)va_arg(*ap, int));
 }
 
 short int get_sh(va_list *ap)
@@ -39,7 +39,7 @@ static intmax_t		get_ent(va_list *ap, t_param *p)
 	intmax_t ret;
 
 	if (TEST_2OPTS(p->length, 'h'))
-		ret = get_shh(ap);
+		ret = (char)get_shh(ap);
 	else if (TEST_FLAG(p->length, 'h'))
 		ret = get_sh(ap);
 	else if (TEST_FLAG(p->length, 'l'))
@@ -83,6 +83,29 @@ static uintmax_t	get_uent(va_list *ap, t_param *p)
 	return (ret);
 }
 
+static char 		*parse_spec_again(t_param *p, va_list *ap)
+{
+	char *ret;
+	if (p->spec == 'C' || (p->spec == 'c' && TEST_FLAG(p->length, 'l')))
+	{
+		ret = ft_wchar(va_arg(*ap, wchar_t));
+		if (*ret == 0)
+			p->exep =1;
+		return (ret);
+	}
+	if (p->spec == 'c' || (p->spec == 'C' && TEST_FLAG(p->length, 'h')))
+	{
+		ret = ft_char_to_str(va_arg(*ap, int));
+		if (*ret == 0)
+			p->exep = 1;
+		return (ret);
+	}
+	if (p->spec == '%')
+		return (ft_char_to_str('%'));
+	return (NULL);
+
+}
+
 static char			*parse_spec(t_param *p, va_list *ap)
 {
 	if (p->spec == 'd' || p->spec == 'i' || p->spec == 'D')
@@ -101,13 +124,7 @@ static char			*parse_spec(t_param *p, va_list *ap)
 		return (ft_wstr(va_arg(*ap, int *), p->precision));
 	if (p->spec == 's')
 		return (ft_strdup(va_arg(*ap, char *)));
-	if (p->spec == 'C' || (p->spec == 'c' && TEST_FLAG(p->length, 'l')))
-		return (ft_wchar(va_arg(*ap, wchar_t)));
-	if (p->spec == 'c' || (p->spec == 'C' && TEST_FLAG(p->length, 'h')))
-		return (ft_char_to_str(va_arg(*ap, int)));
-	if (p->spec == '%')
-		return (ft_char_to_str('%'));
-	return (NULL);
+	return(parse_spec_again(p, ap));
 }
 
 static char 		*get_prefix(t_param *p, char *tmp_val)
@@ -117,7 +134,7 @@ static char 		*get_prefix(t_param *p, char *tmp_val)
 
 	ret = NULL;;
 	tmp = NULL;
-	p->var_len = (ft_strlen(tmp_val) == 0 ? 1 : ft_strlen(tmp_val));
+	p->var_len = ft_strlen(tmp_val);
 	if (p->precision != -1 && p->precision > p->var_len && (TEST_SPEC_NBR(p->spec)|| p->spec == '%'))
 		ret = my_strjoin(ft_strnew_nchar('0', p->precision - p->var_len), ret);
 	p->var_len = p->var_len + ft_strlen(ret);
@@ -141,7 +158,7 @@ char				*get_value(t_param *p, va_list *ap)
 	char *tmp_val;
 
 	if (!(tmp_val = parse_spec(p, ap)))
-		return (ft_strdup("(null)")); 
+		return (ft_strdup("(null)"));
 	prefix = get_prefix(p, tmp_val);
 	if (p->precision < p->var_len && p->precision != -1 && TEST_STR(p->spec))
 		tmp_val = ft_strndup_fr(tmp_val, p->precision);
@@ -156,6 +173,5 @@ char				*get_value(t_param *p, va_list *ap)
 		ft_strdel(&tmp_val);
 		tmp_val = s;
 	}
-	p->var_len = ft_strlen(tmp_val) + ft_strlen(prefix);
 	return (my_strjoin(prefix, tmp_val));
 }

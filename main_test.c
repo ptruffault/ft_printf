@@ -3,10 +3,8 @@
 
 int main(void)
 {
- ft_printf("%#8x", 42);
- ft_printf("%z lol\n");
- ft_printf("\\n"); 
- printf("\\n"); 
+	ft_printf("@moulitest: %.d %.0d\n", 0, 0);
 
+printf("@moulitest: %.d %.d", 0, 0);
 	return 0;
 }

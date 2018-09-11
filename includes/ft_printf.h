@@ -29,6 +29,7 @@ typedef struct	s_param
 	int				opts_len;
 	char			*value;
 	int				var_len;
+	int				exep;
 	struct s_param	*next;
 }				t_param;
 
@@ -38,7 +39,7 @@ char	*my_strjoin(char *s1, char *s2);
 void	ft_putnchar(char c, int n);
 char	*ft_strmap_i(char *s, int (*f)(int));
 char	*ft_strndup_fr(char *str, int n);
-t_param 	*read_option(char *format, t_param *p);
+t_param 	*read_option(char *format, va_list *ap, t_param *p);
 t_param	*init_tparam(char *format, va_list *ap);
 void	free_tparam(t_param *p);
 char	*get_value(t_param *param, va_list *ap);

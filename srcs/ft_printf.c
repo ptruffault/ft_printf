@@ -18,9 +18,9 @@ int	ft_printf(char *format, ...)
 	t_param *p;
 	int		ret;
 
+	p = NULL;
 	va_start(ap, format);
-	if (!(p = init_tparam(format, &ap)))
-		return (-1);
+	p = init_tparam(format, &ap);
 	ret = print(format, p);
 	free_tparam(p);
 	va_end(ap);

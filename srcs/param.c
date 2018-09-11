@@ -1,6 +1,6 @@
 #include "../includes/ft_printf.h"
 
-static t_param *add_tparam(void)
+t_param *add_tparam(void)
 {
 	t_param *p;
 
@@ -12,6 +12,7 @@ static t_param *add_tparam(void)
 	p->spec = '?';
 	p->signe = '?';
 	p->value = NULL;
+	p->length = NULL;
 	p->var_len = 0;
 	p->opts_len = 0;
 	p->next = NULL;
@@ -20,20 +21,18 @@ static t_param *add_tparam(void)
 
 t_param *init_tparam(char *format, va_list *ap)
 {
-	int		i;
-	t_param	*p;
-	t_param	*tmp;
+	int i;
+	t_param *p;
+	t_param *tmp;
 
 	p = add_tparam();
 	tmp = p;
 	i = 0;
 	while (format[i])
 	{
-		if (format[i] == '%' && format[i + 1] != '\0')
+		if (format[i] == '%')
 		{
-			tmp = read_option(&format[i], tmp);
-			if (tmp->spec != '?')
-				p->value = get_value(p, ap);
+			tmp = read_option(&format[i], ap, tmp);
 			i = i + tmp->opts_len;
 			tmp->next = add_tparam();
 			tmp = tmp->next;

@@ -22,16 +22,15 @@ int	ft_puttparam(t_param *p, int ret)
 	else if (TEST_FLAG(p->flag, ' ') && TEST_SIGN(p->spec) && p->signe == '?')
 	{
 		ft_putchar(' ');
-		ret ++;
-	}
-	if (TEST_CHAR(p->spec) && p->value[p->var_len -1] == 0)
-	{
 		ret++;
-		ft_putchar('\0');
 	}
+	if (p->exep == 1)
+		ft_putchar('\0');
 	else
+	{
 		ft_putstr(p->value);
 		ret = ret + ft_strlen(p->value) - 1;
+	}
 	if (p->width > p->var_len && TEST_FLAG(p->flag, '-'))
 	{
 		ft_putnchar(' ', p->width - p->var_len);
@@ -50,7 +49,7 @@ int	print(char *format, t_param *p)
 	ret = 0;
 	while (format[i] != '\0')
 	{
-		if (format[i] == '%' && format[i + 1] != '\0')
+		if (format[i] == '%' && p != NULL)
 		{
 			if (p->spec != '?')
 				ret = ft_puttparam(p, ret);
