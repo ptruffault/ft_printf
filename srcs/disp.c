@@ -53,6 +53,8 @@ int	print(char *format, t_param *p)
 		{
 			if (p->spec != '?')
 				ret = ft_puttparam(p, ret);
+			else
+				ret--;
 			i = i + p->opts_len;
 			p = p->next;
 		}

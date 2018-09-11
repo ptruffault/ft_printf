@@ -1,10 +1,30 @@
 #include "includes/ft_printf.h"
 
 
+# 0142 (signed char)
+  ft_printf("%hhd", 128);
+  1. (    3) -->128<--
+  2. (    4) -->-128<--
+
+# 0144 (signed char)
+  ft_printf("%hhd", -129);
+  1. (    4) -->-129<--
+  2. (    3) -->127<--
+
 int main(void)
 {
-	ft_printf("@moulitest: %.d %.0d\n", 0, 0);
+	ft_printf("%ll#x", 9223372036854775807);
 
-printf("@moulitest: %.d %.d", 0, 0);
+	ft_printf("%5+d", 42);
+
+	ft_printf("%5+d", -42);
+
+	ft_printf("%-5+d", 42);
+
+	ft_printf("%-5+d", -42);
+
+  ft_printf("%zhd", 4294967296);
+
+
 	return 0;
 }

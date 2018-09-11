@@ -35,14 +35,12 @@ t_param 	*read_option(char *format, va_list *ap, t_param *p)
 	ptr = ptr + ft_strlen(p->flag);
 	p->width = (ft_isdigit(*ptr) ? ft_atoi(ptr) : 0);
 	ptr = ptr + ft_tools_2(ptr);
-	p->precision = -1;
-	if (*ptr == '.')
-		p->precision = (ft_isdigit(*(++ptr)) ? ft_atoi(ptr) : 0);
+	p->precision = (*ptr == '.' ? (ft_isdigit(*(++ptr)) ? ft_atoi(ptr) : 0) : -1);
 	ptr = ptr + ft_tools_2(ptr);
 	p->length = ft_tools(ptr, "lhjtz");
 	ptr = ptr + ft_strlen(p->length);
 	p->spec = (TEST_SPEC(*ptr) ? *ptr : '?');
-	p->opts_len = (ptr - format) + 1;
+	p->opts_len = (ptr - format) + (p->spec == '?' ? 0 : 1);
 	p->value = (p->spec != '?' ? get_value(p, ap) : NULL);
 	p->var_len = ft_strlen(p->value) + p->exep;
 	return (p);
