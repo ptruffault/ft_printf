@@ -4,6 +4,7 @@
 # include <stdarg.h>
 # include <stdint.h>
 # include <wchar.h>
+# define TEST(x) ((ft_strchr("#0 -+.0123456789lhjtz", x)) || TEST_SPEC(x))
 # define TEST_SPEC(x) (TEST_SPEC_NBR(x) || TEST_SPEC_CHAR(x) || TEST_SPEC_WEIRD(x))
 # define TEST_SPEC_NBR(x) (TEST_SIGN(x) || TEST_UNSIGN(x))
 # define TEST_SPEC_CHAR(x) (TEST_STR(x) || TEST_CHAR(x))

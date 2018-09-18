@@ -140,7 +140,7 @@ static char 		*get_prefix(t_param *p, char *tmp_val)
 	if (TEST_FLAG(p->flag, '#') || p->spec == 'p')
 		tmp = get_ox(p, tmp_val);
 	if (TEST_FLAG(p->flag, '0') && !TEST_FLAG(p->flag, '-') && (((TEST_SPEC_NBR(p->spec) || TEST_SPEC_WEIRD(p->spec)) && p->precision == -1) || TEST_SPEC_CHAR(p->spec)) && p->width > p->var_len)
-		ret = my_strjoin(ft_strnew_nchar('0', p->width - p-> var_len - (p->signe != '?' ? 1 : 0)), ret);
+		ret = my_strjoin(ft_strnew_nchar('0', p->width - p-> var_len - (p->signe != '?' ? 1 : 0) - TEST_FLAG(p->flag, ' ')), ret);
 	if (TEST_FLAG(p->flag, '#') || p->spec == 'p')
 		ret = my_strjoin(tmp, ret);
 	if (p->signe != '?')

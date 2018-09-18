@@ -1,16 +1,5 @@
 #include "../../includes/ft_printf.h"
 
-static char *ft_tools(char *src, char *elem)
-{
-	int i;
-
-	i = 0;
-	while (ft_strchr(elem, src[i]))
-		i++;
-	if (i > 0)
-		return (ft_strndup(src, i));
-	return (NULL);
-}
 
 static int ft_tools_2(char *src)
 {
@@ -22,25 +11,45 @@ static int ft_tools_2(char *src)
 	return (i);
 }
 
+static t_param *ft_read(char *ptr, t_param *p)
+{
+	int i;
+
+	i = 0;
+	while ((ft_strchr("#0 +-", ptr[i])))
+		p->flag = ft_stradd_char(p->flag, ptr[i++]);
+	p->width = (ft_isdigit(ptr[i]) ? ft_atoi(&ptr[i]) : p->width);
+	i = i + ft_tools_2(&ptr[i]);
+	if (ptr[i] == '.')
+	{
+		while (ptr[i] == '.' )
+			i++;
+		p->precision = (ft_isdigit(ptr[i]) ? ft_atoi(&ptr[i]) : 0);
+		i = i + ft_tools_2(&ptr[i]);
+	}
+	while ((ft_strchr("lhjtz", ptr[i])))
+		p->length = ft_stradd_char(p->length, ptr[i++]);
+	p->spec = (TEST_SPEC(ptr[i]) ? ptr[i++] : '?');
+	p->opts_len = p->opts_len + i + (p->spec == '?' ? 0 : 1);
+	return (p);
+}
+
+
+
+
+
 t_param 	*read_option(char *format, va_list *ap, t_param *p)
 {
-	char	*ptr;
-
-	p->signe = '?';
-	p->exep = 0;
-	p->var_len = 0;
-	p->next = NULL;
-	ptr = format + 1;
-	p->flag = ft_tools(ptr, "#0 +-");
-	ptr = ptr + ft_strlen(p->flag);
-	p->width = (ft_isdigit(*ptr) ? ft_atoi(ptr) : 0);
-	ptr = ptr + ft_tools_2(ptr);
-	p->precision = (*ptr == '.' ? (ft_isdigit(*(++ptr)) ? ft_atoi(ptr) : 0) : -1);
-	ptr = ptr + ft_tools_2(ptr);
-	p->length = ft_tools(ptr, "lhjtz");
-	ptr = ptr + ft_strlen(p->length);
-	p->spec = (TEST_SPEC(*ptr) ? *ptr : '?');
-	p->opts_len = (ptr - format) + (p->spec == '?' ? 0 : 1);
+	if (!TEST(*(format + 1)))
+	{
+		p->opts_len = 1;
+		return (p);
+	}
+	while (p->spec == '?' && TEST(*(format + 1 + p->opts_len)))
+	{
+		p = ft_read(format + 1 + p->opts_len, p);
+		//	printf("flag = %s\nlenght = %s\n spec = %c\npreci = %i\nwidth = %i\nopts_len = %i\n",p->flag, p->length, p->spec , p->precision , p->width, p->opts_len);
+	}
 	p->value = (p->spec != '?' ? get_value(p, ap) : NULL);
 	p->var_len = ft_strlen(p->value) + p->exep;
 	return (p);

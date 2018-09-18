@@ -9,6 +9,7 @@ t_param *add_tparam(void)
 	p->flag = NULL;
 	p->width = 0;
 	p->precision = -1;
+	p->exep = 0;
 	p->spec = '?';
 	p->signe = '?';
 	p->value = NULL;

@@ -12,9 +12,11 @@
 
 #include "../includes/ft_printf.h"
 
+
+
 int	ft_puttparam(t_param *p, int ret)
 {
-	if (p->width > p->var_len && !TEST_FLAG(p->flag, '-'))
+	if (p->width > p->var_len && !(TEST_FLAG(p->flag, '-')))
 	{
 		ft_putnchar(' ', p->width - p->var_len);
 		ret = ret + p->width - p->var_len;
@@ -31,7 +33,7 @@ int	ft_puttparam(t_param *p, int ret)
 		ft_putstr(p->value);
 		ret = ret + ft_strlen(p->value) - 1;
 	}
-	if (p->width > p->var_len && TEST_FLAG(p->flag, '-'))
+	if (TEST_FLAG(p->flag, '-') && p->width > p->var_len)
 	{
 		ft_putnchar(' ', p->width - p->var_len);
 		ret = ret + p->width - p->var_len;
