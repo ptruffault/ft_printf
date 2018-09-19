@@ -12,8 +12,6 @@
 
 #include "../includes/ft_printf.h"
 
-
-
 int	ft_puttparam(t_param *p, int ret)
 {
 	if (p->width > p->var_len && !(TEST_FLAG(p->flag, '-')))
@@ -53,10 +51,14 @@ int	print(char *format, t_param *p)
 	{
 		if (format[i] == '%')
 		{
-			if (p->spec != '?' &&  p->value != NULL)
+			if (p->spec != '?')
 				ret = ft_puttparam(p, ret);
 			else
+			{
+				if (TEST(format[i + p->opts_len]))
+					p->opts_len++;
 				ret--;
+			}
 			i = i + p->opts_len;
 			p = p->next;
 		}
@@ -66,5 +68,3 @@ int	print(char *format, t_param *p)
 	}
 	return (ret);
 }
-
-

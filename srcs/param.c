@@ -31,7 +31,7 @@ t_param *init_tparam(char *format, va_list *ap)
 	i = 0;
 	while (format[i])
 	{
-		if (format[i] == '%')
+		if (format[i] == '%' && check(&format[i]))
 		{
 			tmp = read_option(&format[i], ap, tmp);
 			i = i + tmp->opts_len;

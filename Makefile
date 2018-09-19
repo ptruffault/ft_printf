@@ -12,7 +12,7 @@
 NAME		= libftprintf.a
 GIT 		= https://github.com/ptruffault/ft_printf.git
 
-FLAG		= -Wall -Wextra -Werror
+FLAG		= 
 
 FILES		= 	get_val.c \
 				ft_printf.c \
