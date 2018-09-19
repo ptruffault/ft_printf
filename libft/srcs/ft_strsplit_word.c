@@ -27,23 +27,16 @@ static int		ft_is_quote(char *str)
 
 static int		word_len(char *str)
 {
-	int ret;
 	int i;
 
-	ret = ft_is_quote(str);
 	i = 0;
-	if (ret == -1)
-	{
-		error(" invalid quote : missing end symbol", str);
-		return (-1);
-	}
-	if (ret == 0)
+	if (ft_is_quote(str) < 1)
 	{
 		while (!(IS_SPACE(str[i])) && str[i] != '\0')
 			i++;
 		return (i);
 	}
-	if (ret == 1)
+	else
 		return (ft_strchr(str + 1, *str) - (str + 1));
 	return (-1);
 }
@@ -80,15 +73,18 @@ static char		*get_next_word(char *str)
 {
 	char	*word;
 	int		len;
+	int		r;
 
-	if ((len = word_len(str)) == -1)
-		return (NULL);
+	len = word_len(str);
 	if (!(word = ft_strnew(len)))
 		return (NULL);
-	if (ft_is_quote(str))
+	r = ft_is_quote(str);
+	if (r == 1)
 		word = ft_strncpy(word, str + 1, len);
-	else
+	else if (r == 0)
 		word = ft_strncpy(word, str, len);
+	else if (*(str + 1) != '\0')
+		word = ft_strncpy(word, str + 1, len - 1);
 	return (word);
 }
 
@@ -97,6 +93,7 @@ char			**ft_strsplit_word(char *str)
 	char	**tab;
 	int		k;
 	int		i;
+	int		r;
 
 	if (!(tab = init_tab(str)))
 		return (NULL);
@@ -107,11 +104,10 @@ char			**ft_strsplit_word(char *str)
 		if (!(IS_SPACE(str[i])))
 		{
 			if (!(tab[k++] = get_next_word(&str[i])))
-			{
-				ft_freestrarr(tab);
-				return (NULL);
-			}
-			i = i + word_len(&str[i]) + 2 * ft_is_quote(&str[i]);
+				return (tab);
+			r = ft_is_quote(&str[i]);
+			i = i + word_len(&str[i]) + (r == 1 ? 2 : 0)
+			+ (r == -1 ? 1 : 0);
 		}
 		else
 			i++;

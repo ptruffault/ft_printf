@@ -51,9 +51,9 @@ int	print(char *format, t_param *p)
 	ret = 0;
 	while (format[i] != '\0')
 	{
-		if (format[i] == '%' && p != NULL)
+		if (format[i] == '%')
 		{
-			if (p->spec != '?')
+			if (p->spec != '?' &&  p->value != NULL)
 				ret = ft_puttparam(p, ret);
 			else
 				ret--;

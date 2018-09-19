@@ -50,6 +50,8 @@ t_param 	*read_option(char *format, va_list *ap, t_param *p)
 		p = ft_read(format + 1 + p->opts_len, p);
 		//	printf("flag = %s\nlenght = %s\n spec = %c\npreci = %i\nwidth = %i\nopts_len = %i\n",p->flag, p->length, p->spec , p->precision , p->width, p->opts_len);
 	}
+	if (p->spec == '?' && TEST(*(format + p->opts_len - 1)))
+		p->opts_len++;
 	p->value = (p->spec != '?' ? get_value(p, ap) : NULL);
 	p->var_len = ft_strlen(p->value) + p->exep;
 	return (p);

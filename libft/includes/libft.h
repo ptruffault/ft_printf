@@ -88,6 +88,7 @@ void	ft_put_tfile(t_file *file);
 t_file	*ft_new_tfile(void);
 void	ft_del_tfile(t_file *file);
 void	ft_free_tfile(t_file *file);
+void	ft_putnstr(char *str, int n);
 t_file	*ft_dir_compltion(char *str);
 t_file	*ft_sort_tfile(t_file *file, int (*f)(t_file *file, t_file *tmp));
 char	*ft_new_path(char *s1, char *s2);
