@@ -24,11 +24,18 @@ TOOLS 		= 	wchar_utils.c \
 				get_ox.c \
 				tools_tparam.c
 
-FILE_FOLDER	= ./srcs/
-TOOLS_FOLDER= ./srcs/tools/
-OBJ_FOLDER 	= ./bin/
-SRC			= $(addprefix $(FILE_FOLDER), $(FILES)) $(addprefix $(TOOLS_FOLDER), $(TOOLS)) 
-OBJ			= $(addprefix $(OBJ_FOLDER), $(FILES:.c=.o)) $(addprefix $(OBJ_FOLDER), $(TOOLS:.c=.o))
+HANDLER		= 
+
+FILE_FOLD	= ./srcs/
+TOOLS_FOLD	= ./srcs/tools/
+HANDLER_FOLD= ./srcs/handler
+OBJ_FOLD 	= ./bin/
+SRC			= $(addprefix $(FILE_FOLD), $(FILES)) \
+			$(addprefix $(TOOLS_FOLD), $(TOOLS)) \
+			$(addprefix $(HANDLER_FOLD), $(HANDLER)) 
+OBJ			= $(addprefix $(OBJ_FOLD), $(FILES:.c=.o)) \
+			$(addprefix $(OBJ_FOLD), $(TOOLS:.c=.o)) \
+			$(addprefix $(OBJ_FOLD), $(HANDLER:.c=.o)) 
 
 COLOR		= \033[01;34m
 NO_COLOR	= \033[00m
@@ -52,6 +59,10 @@ bin/%.o: srcs/%.c
 	@echo "$(DONE) $(COLOR)$<"
 
 bin/%.o: srcs/tools/%.c
+	@gcc $(FLAG) -I includes/ -c $< -o $@		
+	@echo "  $(DONE) $(COLOR)$<"
+
+bin/%.o: srcs/handler/%.c
 	@gcc $(FLAG) -I includes/ -c $< -o $@		
 	@echo "  $(DONE) $(COLOR)$<"
 

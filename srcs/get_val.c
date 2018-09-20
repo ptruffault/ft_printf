@@ -107,6 +107,8 @@ static char 		*parse_spec_again(t_param *p, va_list *ap)
 
 static char			*parse_spec(t_param *p, va_list *ap)
 {
+	int *ret;
+
 	if (p->spec == 'd' || p->spec == 'i' || p->spec == 'D')
 		return (ft_itoa_base(get_ent(ap, p), 10));
 	if (p->spec == 'o' || p->spec == 'O')
@@ -120,7 +122,11 @@ static char			*parse_spec(t_param *p, va_list *ap)
 	if (p->spec == 'p')
 		return (ft_itoa_base_u(va_arg(*ap, uintmax_t), 16));
 	if (p->spec == 'S' || (p->spec == 's' && TEST_FLAG(p->length, 'l')))
-		return (ft_wstr(va_arg(*ap, int *), p->precision));
+	{
+		if (!(ret = va_arg(*ap, int *)))
+			return (NULL);
+		return (ft_wstr(ret, p->precision));
+	}
 	if (p->spec == 's')
 		return (ft_strdup(va_arg(*ap, char *)));
 	return(parse_spec_again(p, ap));
@@ -159,8 +165,8 @@ char				*get_value(t_param *p, va_list *ap)
 	if (!(tmp_val = parse_spec(p, ap)))
 		return (ft_strdup("(null)"));
 	prefix = get_prefix(p, tmp_val);
-	if (p->precision < p->var_len && p->precision != -1 && TEST_STR(p->spec))
-		tmp_val = ft_strndup_fr(tmp_val, p->precision);
+	if (p->precision < p->var_len && p->precision != -1 && TEST_STR(p->spec) && !(tmp_val = ft_strndup_fr(tmp_val, p->precision)))
+		tmp_val = ft_strdup("");
 	if ((TEST_SPEC_NBR(p->spec) || p->spec == 'p') && p->precision == 0 && ft_atoi(tmp_val) == 0)
 	{
 		ft_strdel(&tmp_val);

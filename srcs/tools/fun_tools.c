@@ -1,5 +1,6 @@
 #include "../includes/ft_printf.h"
 
+
 char	*my_strjoin(char *s1, char *s2)
 {
 	if (!s1 && s2)
@@ -29,21 +30,11 @@ char	*ft_strmap_i(char *s, int (*f)(int))
 
 char	*ft_strndup_fr(char *str, int n)
 {
-	char	*new;
-	int		i;
+	char *ret;
 
-	i = 0;
-	if (n < 1)
-		return (str);
-	if (!(new = ft_strnew(n + 1)))
-		return (NULL);
-	while (i < n)
-	{
-		new[i] = str[i]; 
-		i++;
-	}
+	ret = ft_strndup(str, n);
 	ft_strdel(&str);
-	return (new);
+	return (ret);
 }
 
 void	ft_putnchar(char c, int n)

@@ -4,6 +4,7 @@
 # include <stdarg.h>
 # include <stdint.h>
 # include <wchar.h>
+#include <limits.h>
 # define TEST(x) ((ft_strchr("#0 -+.0123456789lhjtz", x)) || TEST_SPEC(x))
 # define TEST_SPEC(x) (TEST_SPEC_NBR(x) || TEST_SPEC_CHAR(x) || TEST_SPEC_WEIRD(x))
 # define TEST_SPEC_NBR(x) (TEST_SIGN(x) || TEST_UNSIGN(x))
@@ -35,6 +36,7 @@ typedef struct	s_param
 }				t_param;
 
 int		ft_printf(char *format, ...);
+
 int		print(char *format, t_param *p);
 char	*my_strjoin(char *s1, char *s2);
 void	ft_putnchar(char c, int n);
