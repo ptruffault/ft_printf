@@ -1,6 +1,6 @@
 #include "../includes/ft_printf.h"
 
-int test_flag(char *s, char c)
+int 	test_flag(char *s, char c)
 {
 	char *ptr;
 
