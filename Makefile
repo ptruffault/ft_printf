@@ -17,14 +17,13 @@ FLAG		=
 FILES		= 	get_val.c \
 				ft_printf.c \
 				param.c \
+				get_tmpval.c \
 				disp.c
 
 TOOLS 		= 	wchar_utils.c \
 				fun_tools.c \
 				get_ox.c \
 				tools_tparam.c
-
-HANDLER		=  nbr.c
 
 FILE_FOLD	= ./srcs/
 TOOLS_FOLD	= ./srcs/tools/
@@ -79,11 +78,6 @@ fclean: clean
 	@make -C libft fclean
 
 re: clear fclean all
-
-script:
-	export TMP=`./ft_select/ft_select \`ls srcs\` `; echo srcs/$TMP > tmpfile ; rm -rf srcs/$TMP ; cat tmpfile > srcs/$TMP ; rm -rf tmpfile; vim srcs/$TMP
-
-
 
 chmod:
 	@chmod 777 * $(SRC) includes/ft_printf.h srcs/* srcs/tools/*

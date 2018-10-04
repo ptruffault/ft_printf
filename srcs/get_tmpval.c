@@ -12,7 +12,7 @@
 
 #include "../includes/ft_printf.h"
 
-static char get_char(t_param *p, va_list *ap, int sgd)
+static char			get_char(t_param *p, va_list *ap, int sgd)
 {
 	int c;
 	int vmin;
@@ -25,7 +25,6 @@ static char get_char(t_param *p, va_list *ap, int sgd)
 	c = (c < vmin ? vmax : c);
 	return ((char)c);
 }
-
 
 static intmax_t		get_ent(va_list *ap, t_param *p)
 {
@@ -76,7 +75,7 @@ static uintmax_t	get_uent(va_list *ap, t_param *p)
 	return (ret);
 }
 
-static char 		*parse_spec_again(t_param *p, va_list *ap)
+static char			*parse_spec_again(t_param *p, va_list *ap)
 {
 	char *ret;
 
@@ -95,10 +94,9 @@ static char 		*parse_spec_again(t_param *p, va_list *ap)
 	if (p->spec == '%')
 		return (ft_char_to_str('%'));
 	return (NULL);
-
 }
 
-char			*parse_spec(t_param *p, va_list *ap)
+char				*parse_spec(t_param *p, va_list *ap)
 {
 	int *ret;
 
@@ -122,5 +120,5 @@ char			*parse_spec(t_param *p, va_list *ap)
 	}
 	if (p->spec == 's')
 		return (ft_strdup(va_arg(*ap, char *)));
-	return(parse_spec_again(p, ap));
+	return (parse_spec_again(p, ap));
 }

@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptruffau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/04 17:55:59 by ptruffau          #+#    #+#             */
+/*   Updated: 2018/10/04 17:56:02 by ptruffau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include "../libft/includes/libft.h"
 # include <stdarg.h>
 # include <stdint.h>
 # include <wchar.h>
-#include <limits.h>
+# include <limits.h>
 # define TEST(x) ((ft_strchr("#0 -+.0123456789lhjtz", x)) || TEST_SPEC(x))
-# define TEST_SPEC(x) (TEST_SPEC_NBR(x) || TEST_SPEC_CHAR(x) || TEST_SPEC_WEIRD(x))
+# define TEST_SPEC(x) (TEST_SPEC_NBR(x) || TEST_SPEC_CHAR(x) || TEST_SPEC_W(x))
 # define TEST_SPEC_NBR(x) (TEST_SIGN(x) || TEST_UNSIGN(x))
 # define TEST_SPEC_CHAR(x) (TEST_STR(x) || TEST_CHAR(x))
 # define TEST_UNSIGN(x) (TEST_X(x) || TEST_O(x) || TEST_U(x))
 # define TEST_SIGN(x) (x == 'd' || x == 'D' || x == 'i')
-# define TEST_SPEC_WEIRD(x) ((x == '%' || x == 'p' ))
+# define TEST_SPEC_W(x) ((x == '%' || x == 'p' ))
 # define TEST_X(x) (x == 'x' || x == 'X')
 # define TEST_O(x) (x == 'o' ||x == 'O')
 # define TEST_U(x) (x == 'u' || x == 'U')
@@ -26,7 +38,7 @@ typedef struct	s_param
 	char			*flag;
 	int				width;
 	int				precision;
-	char 			*length;
+	char			*length;
 	char			signe;
 	int				opts_len;
 	char			*value;
@@ -35,19 +47,19 @@ typedef struct	s_param
 	struct s_param	*next;
 }				t_param;
 
-int		ft_printf(char *format, ...);
+int				ft_printf(char *format, ...);
 char			*parse_spec(t_param *p, va_list *ap);
-int 	test_flag(char *s, char c);
-int		print(char *format, t_param *p);
-char	*my_strjoin(char *s1, char *s2);
-void	ft_putnchar(char c, int n);
-char	*ft_strmap_i(char *s, int (*f)(int));
-char	*ft_strndup_fr(char *str, int n);
-t_param 	*read_option(char *format, va_list *ap, t_param *p);
-t_param	*init_tparam(char *format, va_list *ap);
-void	free_tparam(t_param *p);
-char	*get_value(t_param *param, va_list *ap);
-char	*get_ox(t_param *p, char *tmp_val);
-char	*ft_wstr(int *arr, int precision);
-char	*ft_wchar(int wchar);
+int				test_flag(char *s, char c);
+int				print(char *format, t_param *p);
+char			*my_strjoin(char *s1, char *s2);
+void			ft_putnchar(char c, int n);
+char			*ft_strmap_i(char *s, int (*f)(int));
+char			*ft_strndup_fr(char *str, int n);
+t_param			*read_option(char *format, va_list *ap, t_param *p);
+t_param			*init_tparam(char *format, va_list *ap);
+void			free_tparam(t_param *p);
+char			*get_value(t_param *param, va_list *ap);
+char			*get_ox(t_param *p, char *tmp_val);
+char			*ft_wstr(int *arr, int precision);
+char			*ft_wchar(int wchar);
 #endif

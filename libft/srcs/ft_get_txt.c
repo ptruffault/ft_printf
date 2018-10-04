@@ -14,8 +14,8 @@
 
 char	**ft_get_txt(int fd)
 {
-	char **ret;
-	int i;
+	char	**ret;
+	int		i;
 
 	i = 0;
 	if (fd < 0)
@@ -24,8 +24,8 @@ char	**ft_get_txt(int fd)
 		return (NULL);
 	while (get_next_line(fd, &ret[i]))
 	{
-		if (!(ret = ft_realloc(ret, 
-		(i + 1) * sizeof(char *), (i + 2) * sizeof(char *))))
+		if (!(ret = ft_realloc(ret, (i + 1) * sizeof(char *),
+		(i + 2) * sizeof(char *))))
 		{
 			ft_freestrarr(ret);
 			return (NULL);

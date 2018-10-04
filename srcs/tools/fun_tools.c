@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fun_tools.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptruffau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/04 17:44:53 by ptruffau          #+#    #+#             */
+/*   Updated: 2018/10/04 17:44:55 by ptruffau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_printf.h"
 
-int 	test_flag(char *s, char c)
+int		test_flag(char *s, char c)
 {
 	char *ptr;
 
@@ -15,7 +27,6 @@ int 	test_flag(char *s, char c)
 	else
 		return (0);
 }
-
 
 char	*my_strjoin(char *s1, char *s2)
 {
