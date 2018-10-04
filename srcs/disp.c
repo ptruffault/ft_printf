@@ -41,7 +41,6 @@ int	ft_puttparam(t_param *p, int ret)
 	return (ret);
 }
 
-
 int	print(char *format, t_param *p)
 {
 	int i;

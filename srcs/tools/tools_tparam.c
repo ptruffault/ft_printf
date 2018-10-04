@@ -1,18 +1,5 @@
 #include "../../includes/ft_printf.h"
 
-int 	check(char *s)
-{
-	int i;
-
-	i = 0;
-	while ((ft_strchr("#0 -+.0123456789lhjtz", s[i])))
-		i++;
-	if (TEST_SPEC(s[i]))
-		return (i);
-	return (i - 1);
-	
-}
-
 static int ft_tools_2(char *src)
 {
 	int i;
@@ -43,6 +30,7 @@ static t_param *ft_read(char *ptr, t_param *p)
 		p->length = ft_stradd_char(p->length, ptr[i++]);
 	p->spec = (TEST_SPEC(ptr[i]) ? ptr[i++] : '?');
 	p->opts_len = p->opts_len + i ;
+	
 	return (p);
 }
 

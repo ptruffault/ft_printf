@@ -17,8 +17,8 @@
 # define TEST_U(x) (x == 'u' || x == 'U')
 # define TEST_STR(x) (x == 's' || x == 'S')
 # define TEST_CHAR(x) (x == 'c' || x == 'C')
-# define TEST_FLAG(str, x) (str != NULL && (ft_strchr(str, x)))
-# define TEST_2OPTS(str, x) (TEST_FLAG(str, x) && *(ft_strchr(str, x) + 1) == 'x')
+# define TEST_FLAG(str, x) (test_flag(str, x) == 1)
+# define TEST_2OPTS(str, x) (test_flag(str, x) == 2)
 
 typedef struct	s_param
 {
@@ -36,7 +36,8 @@ typedef struct	s_param
 }				t_param;
 
 int		ft_printf(char *format, ...);
-
+char			*parse_spec(t_param *p, va_list *ap);
+int 	test_flag(char *s, char c);
 int		print(char *format, t_param *p);
 char	*my_strjoin(char *s1, char *s2);
 void	ft_putnchar(char c, int n);

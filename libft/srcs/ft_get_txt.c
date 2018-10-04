@@ -1,40 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_get_input.c                                     :+:      :+:    :+:   */
+/*   ft_get_txt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ptruffau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/21 14:49:50 by ptruffau          #+#    #+#             */
-/*   Updated: 2018/06/21 14:50:01 by ptruffau         ###   ########.fr       */
+/*   Created: 2018/06/08 17:16:51 by ptruffau          #+#    #+#             */
+/*   Updated: 2018/06/08 17:24:11 by ptruffau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
-char	*ft_get_input(void)
+char	**ft_get_txt(int fd)
 {
-	char	*input;
-	int		ret;
-	char	buf;
-	int		i;
-	int		count;
+	char **ret;
+	int i;
 
-	if (!(input = ft_strnew(1)))
-		return (NULL);
-	count = 1;
 	i = 0;
-	while ((ret = read(0, &buf, 1)) && buf != '\n')
-	{
-		input[i++] = buf;
-		input = ft_realloc(input, count, count + 1);
-		count++;
-	}
-	input[i] = '\0';
-	if (!ret)
-	{
-		free(input);
+	if (fd < 0)
 		return (NULL);
+	if (!(ret = (char **)malloc(sizeof(char *))))
+		return (NULL);
+	while (get_next_line(fd, &ret[i]))
+	{
+		if (!(ret = ft_realloc(ret, 
+		(i + 1) * sizeof(char *), (i + 2) * sizeof(char *))))
+		{
+			ft_freestrarr(ret);
+			return (NULL);
+		}
+		i++;
 	}
-	return (input);
+	return (ret);
 }

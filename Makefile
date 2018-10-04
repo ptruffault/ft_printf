@@ -24,11 +24,11 @@ TOOLS 		= 	wchar_utils.c \
 				get_ox.c \
 				tools_tparam.c
 
-HANDLER		= 
+HANDLER		=  nbr.c
 
 FILE_FOLD	= ./srcs/
 TOOLS_FOLD	= ./srcs/tools/
-HANDLER_FOLD= ./srcs/handler
+HANDLER_FOLD= ./srcs/handler/
 OBJ_FOLD 	= ./bin/
 SRC			= $(addprefix $(FILE_FOLD), $(FILES)) \
 			$(addprefix $(TOOLS_FOLD), $(TOOLS)) \
@@ -79,6 +79,10 @@ fclean: clean
 	@make -C libft fclean
 
 re: clear fclean all
+
+script:
+	export TMP=`./ft_select/ft_select \`ls srcs\` `; echo srcs/$TMP > tmpfile ; rm -rf srcs/$TMP ; cat tmpfile > srcs/$TMP ; rm -rf tmpfile; vim srcs/$TMP
+
 
 
 chmod:

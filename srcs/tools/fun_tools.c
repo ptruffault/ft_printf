@@ -1,5 +1,21 @@
 #include "../includes/ft_printf.h"
 
+int test_flag(char *s, char c)
+{
+	char *ptr;
+
+	if (!s)
+		return (0);
+	if ((ptr = ft_strchr(s, c)))
+	{
+		if (ptr[1] == c && (c == 'l' || c == 'h'))
+			return (2);
+		return (1);
+	}
+	else
+		return (0);
+}
+
 
 char	*my_strjoin(char *s1, char *s2)
 {

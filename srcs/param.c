@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   param.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ptruffau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/04 16:07:47 by ptruffau          #+#    #+#             */
+/*   Updated: 2018/10/04 16:07:49 by ptruffau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/ft_printf.h"
 
-t_param *add_tparam(void)
+t_param	*add_tparam(void)
 {
 	t_param *p;
 
@@ -20,9 +32,9 @@ t_param *add_tparam(void)
 	return (p);
 }
 
-t_param *init_tparam(char *format, va_list *ap)
+t_param	*init_tparam(char *format, va_list *ap)
 {
-	int i;
+	int		i;
 	t_param *p;
 	t_param *tmp;
 
