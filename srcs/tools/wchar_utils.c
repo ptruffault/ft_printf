@@ -44,11 +44,6 @@ char	*ft_wstr(int *arr, t_param *p)
 	char		*str;
 	size_t		counter;
 
-	if (p->precision != -1)
-	{
-		warning("undefined result : precision with ", &p->spec);
-		return (NULL);
-	}
 	counter = -1;
 	len = 0;
 	str = ft_strdup("");

@@ -17,19 +17,19 @@ int	ft_puttparam(t_param *p, int ret)
 	if (p->width > p->var_len && !(TEST_FLAG(p->flag, '-')))
 	{
 		ft_putnchar(' ', p->width - p->var_len - (p->spec == '?' ? 1 : 0));
-		ret = ret + p->width - p->var_len;
+		ret = ret + p->width - p->var_len - (p->spec == '?' ? 1 : 0);
 	}
 	else if (TEST_FLAG(p->flag, ' ') && TEST_SIGN(p->spec) && p->signe == '?')
 	{
 		ft_putchar(' ');
 		ret++;
 	}
-	if (p->exep == 1)
-		ft_putchar('\0');
-	else if (p->spec != '?')
+	if (p->spec != '?')
 	{
 		ft_putstr(p->value);
-		ret = ret + ft_strlen(p->value) - 1;
+		if (p->exep == 1)
+			ft_putchar('\0');
+		ret = ret + ft_strlen(p->value) - 1 + p->exep;
 	}
 	else
 		ret--;

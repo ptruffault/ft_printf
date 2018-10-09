@@ -29,7 +29,6 @@ char	*get_ox(t_param *p, char *tmp_val)
 		|| ((p->spec == 'o' || p->spec == 'O') && !(ret = ft_strdup("0\0"))))
 			return (NULL);
 	}
-	if (p->spec != 'p')
-		p->var_len = p->var_len + ft_strlen(ret);
+	p->var_len = p->var_len + ft_strlen(ret);
 	return (ret);
 }
