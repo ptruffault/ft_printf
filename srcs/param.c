@@ -60,7 +60,7 @@ void	free_tparam(t_param *p)
 {
 	t_param *tmp;
 
-	while (p)
+	while (p != NULL)
 	{
 		tmp = p->next;
 		ft_strdel(&p->flag);

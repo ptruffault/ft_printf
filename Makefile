@@ -23,6 +23,7 @@ FILES		= 	get_val.c \
 TOOLS 		= 	wchar_utils.c \
 				fun_tools.c \
 				get_ox.c \
+				get_type.c \
 				tools_tparam.c
 
 FILE_FOLD	= ./srcs/

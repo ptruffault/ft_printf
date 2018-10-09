@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-
+//4leaks , and 12 moulitest error (6 to do)
 int	ft_printf(char *format, ...)
 {
 	va_list ap;

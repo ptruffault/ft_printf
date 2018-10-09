@@ -12,7 +12,7 @@
 
 #include "../includes/ft_printf.h"
 
-char		*ft_wchar(int wchar)
+char	*ft_wchar(int wchar)
 {
 	unsigned char	two_bytes[3];
 	unsigned char	three_bytes[4];
@@ -37,29 +37,27 @@ char		*ft_wchar(int wchar)
 	return (ft_strdup((char*)three_bytes));
 }
 
-char		*ft_wstr(int *arr, int precision)
+char	*ft_wstr(int *arr, t_param *p)
 {
 	int			len;
 	char		*symb;
 	char		*str;
 	size_t		counter;
 
+	if (p->precision != -1)
+	{
+		warning("undefined result : precision with ", &p->spec);
+		return (NULL);
+	}
 	counter = -1;
 	len = 0;
 	str = ft_strdup("");
 	while (arr[++counter])
 	{
 		symb = ft_wchar(arr[counter]);
-		if (precision > 0)
-		{
-			len += ft_strlen(symb);
-			if (len <= precision)
-				str = ft_strjoin_fr(str, symb);
-		}
-		else
-			str = ft_strcat(str, symb);
-		ft_strdel(&symb);
+		str = ft_realloc(str, len, len + ft_strlen(symb));
+		len += ft_strlen(symb);
+		str = ft_strcat(str, symb);
 	}
-	str[ft_strlen(str)] = '\0';
 	return (str);
 }

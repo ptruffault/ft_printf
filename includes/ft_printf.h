@@ -47,6 +47,10 @@ typedef struct	s_param
 	struct s_param	*next;
 }				t_param;
 
+uintmax_t		get_uent(va_list *ap, t_param *p);
+intmax_t		get_ent(va_list *ap, t_param *p);
+unsigned char	get_uchar(t_param *p, va_list *ap);
+char			get_char(t_param *p, va_list *ap);
 int				ft_printf(char *format, ...);
 char			*parse_spec(t_param *p, va_list *ap);
 int				test_flag(char *s, char c);
@@ -60,6 +64,6 @@ t_param			*init_tparam(char *format, va_list *ap);
 void			free_tparam(t_param *p);
 char			*get_value(t_param *param, va_list *ap);
 char			*get_ox(t_param *p, char *tmp_val);
-char			*ft_wstr(int *arr, int precision);
+char			*ft_wstr(int *arr, t_param *p);
 char			*ft_wchar(int wchar);
 #endif

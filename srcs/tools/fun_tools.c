@@ -59,6 +59,10 @@ char	*ft_strndup_fr(char *str, int n)
 {
 	char *ret;
 
+	if (str == NULL)
+	{
+		ft_strnew(1);
+	}
 	ret = ft_strndup(str, n);
 	ft_strdel(&str);
 	return (ret);
