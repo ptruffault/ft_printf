@@ -12,12 +12,17 @@
 
 #include "../includes/ft_printf.h"
 
-static char *get_flag_zero(t_param *p, char *ret)
+static char	*get_flag_zero(t_param *p, char *ret)
 {
 	int i;
 
-	i = p->width - p->var_len - (p->signe != '?' ? 1 : 0) - TEST_FLAG(p->flag, ' ') - p->exep;
-	if (TEST_FLAG(p->flag, '0') && !TEST_FLAG(p->flag, '-') && i > 0)
+	if (!TEST_FLAG(p->flag, '0') || TEST_FLAG(p->flag, '-'))
+		return (ret);
+	i = p->width - p->var_len - (p->signe != '?' ? 1 : 0);
+	i = i - TEST_FLAG(p->flag, ' ') - p->exep;
+	if (p->precision != -1 && TEST_SPEC_NBR(p->spec))
+		return (ret);
+	if (i > 0)
 	{
 		ret = my_strjoin(ft_strnew_nchar('0', i), ret);
 	}
@@ -35,12 +40,14 @@ static char	*get_prefix(t_param *p, char *tmp_val)
 	if (TEST_FLAG(p->flag, '#') || p->spec == 'p')
 		tmp = get_ox(p, tmp_val);
 	if (p->precision != -1 && p->precision > p->var_len
-	&& (TEST_SPEC_NBR(p->spec) || p->spec == 'p'))
-	{	
-		ret = my_strjoin(ft_strnew_nchar('0', p->precision - p->var_len + (p->spec == 'p' ? 2 : 0)), ret);
+	&& TEST_SPEC_NBR(p->spec))
+	{
+		ret = my_strjoin(ft_strnew_nchar('0', p->precision - p->var_len +
+		(p->spec == 'p' ? 2 : 0)), ret);
 		p->var_len = ft_strlen(ret) + ft_strlen(tmp_val);
 	}
-	ret = get_flag_zero(p, ret);
+	if (p->var_len < (p->precision < 1 ? p->width : p->precision))
+		ret = get_flag_zero(p, ret);
 	if (TEST_FLAG(p->flag, '#') || p->spec == 'p')
 		ret = my_strjoin(tmp, ret);
 	if (p->signe != '?')
@@ -61,7 +68,7 @@ char		*get_value(t_param *p, va_list *ap)
 		tmp_val = ft_strdup("(null)");
 	if (p->precision < p->var_len && p->precision != -1 && TEST_STR(p->spec))
 		tmp_val = ft_strndup_fr(tmp_val, p->precision);
-	if ((TEST_SPEC_NBR(p->spec) || p->spec == 'p') &&
+	if (TEST_SPEC_NBR(p->spec) && !TEST_FLAG(p->flag, '0') &&
 	p->precision == 0 && ft_atoi(tmp_val) == 0 && !(TEST_FLAG(p->flag, '#') &&
 	(p->spec == 'o' || p->spec == 'O')))
 	{

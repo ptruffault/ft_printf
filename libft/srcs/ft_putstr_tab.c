@@ -12,11 +12,11 @@
 
 #include "../includes/libft.h"
 
-void	ft_putstr_tab(char **tab)
+void	ft_putstr_tab(char **t)
 {
 	int i;
 
 	i = 0;
-	while ((tab[i]))
-		ft_putendl(tab[i++]);
+	while ((t[i]))
+		ft_putendl(t[i++]);
 }

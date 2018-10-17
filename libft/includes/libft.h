@@ -37,7 +37,6 @@
 # define CYAN 		"\033[1;36m"
 # define MAGENTA 	"\033[1;35m"
 # define JAUNE		"\033[1;39m"
-
 struct	s_list
 {
 	void			*content;

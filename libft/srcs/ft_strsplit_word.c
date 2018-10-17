@@ -90,12 +90,12 @@ static char		*get_next_word(char *str)
 
 char			**ft_strsplit_word(char *str)
 {
-	char	**tab;
+	char	**t;
 	int		k;
 	int		i;
 	int		r;
 
-	if (!(tab = init_tab(str)))
+	if (!(t = init_tab(str)))
 		return (NULL);
 	k = 0;
 	i = 0;
@@ -103,8 +103,8 @@ char			**ft_strsplit_word(char *str)
 	{
 		if (!(IS_SPACE(str[i])))
 		{
-			if (!(tab[k++] = get_next_word(&str[i])))
-				return (tab);
+			if (!(t[k++] = get_next_word(&str[i])))
+				return (t);
 			r = ft_is_quote(&str[i]);
 			i = i + word_len(&str[i]) + (r == 1 ? 2 : 0)
 			+ (r == -1 ? 1 : 0);
@@ -112,6 +112,6 @@ char			**ft_strsplit_word(char *str)
 		else
 			i++;
 	}
-	tab[k] = NULL;
-	return (tab);
+	t[k] = NULL;
+	return (t);
 }

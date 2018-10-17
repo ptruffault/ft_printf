@@ -66,13 +66,9 @@ bin/%.o: srcs/handler/%.c
 	@gcc $(FLAG) -I includes/ -c $< -o $@		
 	@echo "  $(DONE) $(COLOR)$<"
 
-clear:
-	@clear
-
 clean:
 	@rm -rf  bin/*
 	@make -C libft clean
-	@echo "$(DONE)$(OP_COLOR) Remove $(NAME) and bin/$(NO_COLOR)"
 
 fclean: clean
 	rm -rf $(NAME)
@@ -80,21 +76,5 @@ fclean: clean
 
 re: clear fclean all
 
-chmod:
-	@chmod 777 * $(SRC) includes/ft_printf.h srcs/* srcs/tools/*
-	@make -C ./libft chmod
-
-save: clear chmod
-	@git add * srcs/* srcs/tools/* includes/*
-	@git commit -m  "make save"
-	@git push
-	@echo "$(DONE)"
-
-update: clear
-	@echo "$(OP_COLOR)download lastest $(NAME) version$(NO_COLOR)"
-	@rm -rf *
-	@git clone $(GIT) TMP && mv TMP/* . && rm -rf TMP libft
-	@echo "$(OP_COLOR)download lastest libft version$(NO_COLOR)"
-	@git clone https://github.com/ptruffault/libft.git
 
 .PHONY: clear clean fclean re chmod save update

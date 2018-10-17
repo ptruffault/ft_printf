@@ -53,6 +53,7 @@ char	*ft_wstr(int *arr, t_param *p)
 		str = ft_realloc(str, len, len + ft_strlen(symb));
 		len += ft_strlen(symb);
 		str = ft_strcat(str, symb);
+		ft_strdel(&symb);
 	}
 	return (str);
 }

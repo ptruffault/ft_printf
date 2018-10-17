@@ -19,7 +19,7 @@
 # include <limits.h>
 # define TEST(x) ((ft_strchr("#0 -+.0123456789lhjtz", x)) || TEST_SPEC(x))
 # define TEST_SPEC(x) (TEST_SPEC_NBR(x) || TEST_SPEC_CHAR(x) || TEST_SPEC_W(x))
-# define TEST_SPEC_NBR(x) (TEST_SIGN(x) || TEST_UNSIGN(x))
+# define TEST_SPEC_NBR(x) (TEST_SIGN(x) || TEST_UNSIGN(x)  || p->spec == 'p')
 # define TEST_SPEC_CHAR(x) (TEST_STR(x) || TEST_CHAR(x))
 # define TEST_UNSIGN(x) (TEST_X(x) || TEST_O(x) || TEST_U(x))
 # define TEST_SIGN(x) (x == 'd' || x == 'D' || x == 'i')

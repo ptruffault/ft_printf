@@ -36,12 +36,12 @@ char		**ft_strsplit_whitespace(char *str)
 {
 	int		i;
 	int		k;
-	char	**tab;
+	char	**t;
 
 	i = 0;
 	k = 0;
-	tab = NULL;
-	if (!(tab = (char **)malloc(sizeof(char *) * ft_nw(str) + 1)))
+	t = NULL;
+	if (!(t = (char **)malloc(sizeof(char *) * ft_nw(str) + 1)))
 	{
 		error("allocation failed", "ft_strsplit_whitespace");
 		return (NULL);
@@ -52,10 +52,10 @@ char		**ft_strsplit_whitespace(char *str)
 			i++;
 		if (str[i] != '\0')
 		{
-			tab[k] = ft_get_next_word(&str[i]);
-			i = i + ft_strlen(tab[k++]);
+			t[k] = ft_get_next_word(&str[i]);
+			i = i + ft_strlen(t[k++]);
 		}
 	}
-	tab[k] = NULL;
-	return (tab);
+	t[k] = NULL;
+	return (t);
 }

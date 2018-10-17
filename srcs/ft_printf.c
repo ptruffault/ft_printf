@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
-//4leaks , and 12 moulitest error (6 to do)
-// shit to do with flag '0' and precision
+
 int	ft_printf(char *format, ...)
 {
 	va_list ap;
